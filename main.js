@@ -6,7 +6,7 @@ const path = require("path");
 const port = 8005;
 
 const staticPath = path.join(__dirname, "public");
-const config = cnf[env.TYPE];
+const config = require("./config.js");
 
 app.use(express.static(staticPath));
 app.use(bodyParser.json());
@@ -14,6 +14,37 @@ app.use(bodyParser.json());
 //Checking the crypto module for login
 const crypto = require("crypto");
 const key = env.CRYPTOKEY;
+
+//database
+const mysql = require("mysql");
+
+console.log("Started server with config:");
+console.log(config);
+
+const db = mysql.createConnection({
+  port: config.mysql.port,
+  host: config.mysql.host,
+  user: config.mysql.user,
+  password: config.mysql.password,
+  database: config.mysql.database,
+});
+
+db.connect(function (err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
+
+//keeping database online
+timeoutDatabase();
+setInterval(() => {
+  timeoutDatabase();
+}, 120000);
+
+function timeoutDatabase() {
+  db.query("SELECT 1", (err, result) => {
+    console.log(result);
+  });
+}
 
 //Encrypting text
 function encrypt(text) {
