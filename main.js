@@ -25,7 +25,7 @@ const mysql = require("mysql");
 console.log("Started server with config:");
 console.log(config);
 
-const db = mysql.createConnection({
+/*const db = mysql.createConnection({
   port: config.mysql.port,
   host: config.mysql.host,
   user: config.mysql.user,
@@ -48,7 +48,7 @@ function timeoutDatabase() {
   db.query("SELECT 1", (err, result) => {
     console.log(result);
   });
-}
+}*/
 
 //Encrypting text
 function encrypt(text) {
