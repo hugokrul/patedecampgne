@@ -11,6 +11,10 @@ const config = require("./config.js");
 app.use(express.static(staticPath));
 app.use(bodyParser.json());
 
+//dotenv
+const dotenv = require("dotenv").config();
+const env = dotenv.parsed;
+
 //Checking the crypto module for login
 const crypto = require("crypto");
 const key = env.CRYPTOKEY;
