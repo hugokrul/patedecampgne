@@ -5,13 +5,12 @@
     --gray-800: hsl(220, 26%, 14%);
     --gray-900: hsl(230, 21%, 11%);
     --gap: 2rem;
-    --duration: 90s;
+    --duration: 20s;
     --scroll-start: 0;
     --scroll-end: calc(-100% - var(--gap))
 }
 section {
     width: 100vw;
-    margin: 20px;
 }
 section.recommended {
     width: 80%;
