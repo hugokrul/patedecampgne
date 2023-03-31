@@ -117,7 +117,7 @@ app.post("/register", (req, res) => {
   db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
     if (result[0] === undefined) {
       db.query(
-        "INSERT INTO users (email, password, password_iv, fullName, address, creditCard, creditCard_iv) VALUES (?,?,?,?,?,?,?)",
+        "INSERT INTO users (email, password, password_iv, fullName, address, creditCard, creditCard_iv, registerDate) VALUES (?,?,?,?,?,?,?,?)",
         [
           email,
           password.encryptedData,
@@ -126,6 +126,7 @@ app.post("/register", (req, res) => {
           address,
           creditCard.encryptedData,
           creditCard.iv,
+          Date(),
         ],
         (error, result2) => {
           if (error) {
