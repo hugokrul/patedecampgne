@@ -6,7 +6,6 @@ const path = require("path");
 const port = 8005;
 
 const staticPath = path.join(__dirname, "public");
-const config = require("./config.js");
 
 app.use(express.static(staticPath));
 app.use(bodyParser.json());
@@ -20,35 +19,17 @@ const crypto = require("crypto");
 const key = env.CRYPTOKEY;
 
 //database
-const mysql = require("mysql");
+const fs = require("fs");
+const sqlite3 = require("sqlite3").verbose();
 
-console.log("Started server with config:");
-console.log(config);
+let file = __dirname + "/" + "pateDeCampagne.db";
+let exists = fs.existsSync(file);
+if (!exists) {
+  fs.openSync(file, "w");
+}
+let db = new sqlite3.Database(file);
 
-/*const db = mysql.createConnection({
-  port: config.mysql.port,
-  host: config.mysql.host,
-  user: config.mysql.user,
-  password: config.mysql.password,
-  database: config.mysql.database,
-});
-
-db.connect(function (err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
-
-//keeping database online
-timeoutDatabase();
-setInterval(() => {
-  timeoutDatabase();
-}, 120000);
-
-function timeoutDatabase() {
-  db.query("SELECT 1", (err, result) => {
-    console.log(result);
-  });
-}*/
+//!!!!!!!!!!!!!!db.close();
 
 //Encrypting text
 function encrypt(text) {
@@ -73,7 +54,7 @@ app.post("/login", async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
 
-  db.query(
+  db.run(
     "SELECT * FROM users WHERE email = ?",
     [email, password],
     (err, result) => {
@@ -114,9 +95,9 @@ app.post("/register", (req, res) => {
   const creditCard = encrypt(req.body.creditCard);
   //order history in different table
 
-  db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+  db.run("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
     if (result[0] === undefined) {
-      db.query(
+      db.run(
         "INSERT INTO users (email, password, password_iv, fullName, address, creditCard, creditCard_iv) VALUES (?,?,?,?,?,?,?)",
         [
           email,
@@ -149,7 +130,7 @@ app.post("/register", (req, res) => {
 });
 app.post("/get-user", (req, res) => {
   const userId = req.body.userId;
-  db.query("SELECT * FROM users WHERE id = ?", [userId], (err, result) => {
+  db.run("SELECT * FROM users WHERE id = ?", [userId], (err, result) => {
     if (err) {
       res.send({
         error: err,
@@ -175,7 +156,7 @@ app.post("/add-order-history", (req, res) => {
   //movieId is a seperate table
   const dateTimeSlot = req.body.dateTimeSlot;
 
-  db.query(
+  db.run(
     "INSERT INTO orderHistory (userId, movieId, dateTimeSlot) VALUES (?,?,?)",
     [userId, movieId, dateTimeSlot],
     (error, result) => {
@@ -192,7 +173,7 @@ app.post("/add-order-history", (req, res) => {
 });
 app.post("/get-user-order-history", (req, res) => {
   const userId = req.body.userId;
-  db.query(
+  db.run(
     "SELECT * FROM orderHistory WHERE userId = ?",
     [userId],
     (err, result) => {
@@ -214,7 +195,7 @@ app.post("/get-user-order-history", (req, res) => {
 });
 app.post("/get-order", (req, res) => {
   const orderId = req.body.orderId;
-  db.query(
+  db.run(
     "SELECT * FROM orderHistory WHERE orderId = ?",
     [orderId],
     (err, result) => {
@@ -236,7 +217,7 @@ app.post("/get-order", (req, res) => {
 });
 
 app.post("/get-all-movies", (req, res) => {
-  db.query("SELECT * FROM movies", (err, result) => {
+  db.run("SELECT * FROM movies", (err, result) => {
     if (err) {
       res.send({
         error: err,
@@ -254,25 +235,21 @@ app.post("/get-all-movies", (req, res) => {
 });
 app.post("/get-movie", (req, res) => {
   const movieId = req.body.movieId;
-  db.query(
-    "SELECT * FROM movies WHERE movieId = ?",
-    [movieId],
-    (err, result) => {
-      if (err) {
-        res.send({
-          error: err,
-        });
-      }
-
-      if (result.length > 0) {
-        res.send(result);
-      } else {
-        res.send({
-          message: "No movie found",
-        });
-      }
+  db.run("SELECT * FROM movies WHERE movieId = ?", [movieId], (err, result) => {
+    if (err) {
+      res.send({
+        error: err,
+      });
     }
-  );
+
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.send({
+        message: "No movie found",
+      });
+    }
+  });
 });
 
 app.listen(port, () => {
