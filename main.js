@@ -23,6 +23,7 @@ const fs = require("fs");
 const sqlite3 = require("sqlite3").verbose();
 
 let file = __dirname + "/" + "pateDeCampagne.db";
+console.log(file);
 let exists = fs.existsSync(file);
 if (!exists) {
   fs.openSync(file, "w");
@@ -84,6 +85,14 @@ app.post("/login", async (req, res) => {
       }
     }
   );
+});
+
+app.get("/koen", (req, res) => {
+  db.run("SELECT * FROM users", (err, result) => {
+    console.log(db);
+    console.log(result);
+    res.send("perfect");
+  });
 });
 
 app.post("/register", (req, res) => {
