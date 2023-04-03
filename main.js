@@ -23,7 +23,6 @@ const fs = require("fs");
 const sqlite3 = require("sqlite3").verbose();
 
 let file = __dirname + "/" + "pateDeCampagne.db";
-console.log(file);
 let exists = fs.existsSync(file);
 if (!exists) {
   fs.openSync(file, "w");
@@ -55,7 +54,7 @@ app.post("/login", async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
 
-  db.run(
+  db.all(
     "SELECT * FROM users WHERE email = ?",
     [email, password],
     (err, result) => {
@@ -67,10 +66,11 @@ app.post("/login", async (req, res) => {
 
       if (result.length > 0) {
         let user = result[0];
-        let decryptedPassword = decrypt({
+        let decryptedPassword = user.password;
+        /*let decryptedPassword = decrypt({
           encryptedData: user.password,
           iv: user.password_iv,
-        });
+        });*/
         if (password === decryptedPassword) {
           res.send(result);
         } else {
@@ -88,7 +88,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/koen", (req, res) => {
-  db.run("SELECT * FROM users", (err, result) => {
+  db.all("SELECT * FROM users", (err, result) => {
     console.log(db);
     console.log(result);
     res.send("perfect");
@@ -98,26 +98,19 @@ app.get("/koen", (req, res) => {
 app.post("/register", (req, res) => {
   //userId: auto_increment
   const email = req.body.email;
-  const password = encrypt(req.body.password);
+  //const password = encrypt(req.body.password);
+  const password = req.body.password;
   const fullName = req.body.fullName;
   const address = req.body.address;
-  const creditCard = encrypt(req.body.creditCard);
+  //const creditCard = encrypt(req.body.creditCard);
+  const creditCard = req.body.creditCard;
   //order history in different table
 
-  db.run("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+  db.all("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
     if (result[0] === undefined) {
-      db.run(
-        "INSERT INTO users (email, password, password_iv, fullName, address, creditCard, creditCard_iv, registerDate) VALUES (?,?,?,?,?,?,?,?)",
-        [
-          email,
-          password.encryptedData,
-          password.iv,
-          fullName,
-          address,
-          creditCard.encryptedData,
-          creditCard.iv,
-          Date(),
-        ],
+      db.all(
+        "INSERT INTO users (email, password, fullName, address, creditCard, registerDate) VALUES (?,?,?,?,?,?,?,?)",
+        [email, password, fullName, address, creditCard, Date()],
         (error, result2) => {
           if (error) {
             console.log(error);
@@ -140,7 +133,7 @@ app.post("/register", (req, res) => {
 });
 app.post("/get-user", (req, res) => {
   const userId = req.body.userId;
-  db.run("SELECT * FROM users WHERE id = ?", [userId], (err, result) => {
+  db.all("SELECT * FROM users WHERE id = ?", [userId], (err, result) => {
     if (err) {
       res.send({
         error: err,
@@ -166,7 +159,7 @@ app.post("/add-order-history", (req, res) => {
   //movieId is a seperate table
   const dateTimeSlot = req.body.dateTimeSlot;
 
-  db.run(
+  db.all(
     "INSERT INTO orderHistory (userId, movieId, dateTimeSlot) VALUES (?,?,?)",
     [userId, movieId, dateTimeSlot],
     (error, result) => {
@@ -183,7 +176,7 @@ app.post("/add-order-history", (req, res) => {
 });
 app.post("/get-user-order-history", (req, res) => {
   const userId = req.body.userId;
-  db.run(
+  db.all(
     "SELECT * FROM orderHistory WHERE userId = ?",
     [userId],
     (err, result) => {
@@ -205,7 +198,7 @@ app.post("/get-user-order-history", (req, res) => {
 });
 app.post("/get-order", (req, res) => {
   const orderId = req.body.orderId;
-  db.run(
+  db.all(
     "SELECT * FROM orderHistory WHERE orderId = ?",
     [orderId],
     (err, result) => {
@@ -227,7 +220,7 @@ app.post("/get-order", (req, res) => {
 });
 
 app.post("/get-all-movies", (req, res) => {
-  db.run("SELECT * FROM movies", (err, result) => {
+  db.all("SELECT * FROM movies", (err, result) => {
     if (err) {
       res.send({
         error: err,
@@ -245,7 +238,7 @@ app.post("/get-all-movies", (req, res) => {
 });
 app.post("/get-movie", (req, res) => {
   const movieId = req.body.movieId;
-  db.run("SELECT * FROM movies WHERE movieId = ?", [movieId], (err, result) => {
+  db.all("SELECT * FROM movies WHERE movieId = ?", [movieId], (err, result) => {
     if (err) {
       res.send({
         error: err,
@@ -263,5 +256,5 @@ app.post("/get-movie", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("running");
+  console.log("allning");
 });
