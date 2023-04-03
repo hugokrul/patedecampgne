@@ -258,7 +258,7 @@ app.post("/get-movie", (req, res) => {
   });
 });
 app.post("/get-actors", (req, res) => {
-    const actorId = req.body.actorId;
+    const actorId = req.query.actorId;
     db.all("SELECT * FROM movies WHERE movieId = ?", [actorId], (err, result) => {
         if (err) {
             res.send({
