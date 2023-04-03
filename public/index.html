@@ -8,13 +8,14 @@
     <title>Document</title>
 </head>
 <body>
-    <form name="data" action="http:/localhost:8005/get-actors">
+    <form name="data" method="post" action="/get-actors">
         <p>
             actor: 
-            <input type="text" name="actorId" placeholder="178 - 277" required>
+            <input type="text" name="actorName" id="actorName" placeholder="chris evans" required>
         </p>
         <p>
-            <input type="submit"value="Submit"/>
+            <input type="submit" value="Submit"/>
         </p>
+    </form>
 </body>
 </html>

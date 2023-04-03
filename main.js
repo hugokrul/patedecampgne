@@ -8,7 +8,9 @@ const port = 8005;
 const staticPath = path.join(__dirname, "public");
 
 app.use(express.static(staticPath));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 //dotenv
 const dotenv = require("dotenv").config();
@@ -51,11 +53,11 @@ function decrypt(text) {
 }
 
 app.post("/login", async (req, res) => {
-  //USE req.query FOR CUSTOM JS IN FRONTEND
-  //USE req.query FOR FORMS IN FRONTEND
+  //USE req.body FOR CUSTOM JS IN FRONTEND
+  //USE req.body FOR FORMS IN FRONTEND
 
-  let email = req.query.email;
-  let password = req.query.password;
+  let email = req.body.email;
+  let password = req.body.password;
 
   db.all(
     "SELECT * FROM users WHERE email = ?",
@@ -100,13 +102,13 @@ app.get("/koen", (req, res) => {
 
 app.post("/register", (req, res) => {
   //userId: auto_increment
-  const email = req.query.email;
-  //const password = encrypt(req.query.password);
-  const password = req.query.password;
-  const fullName = req.query.fullName;
-  const address = req.query.address;
-  //const creditCard = encrypt(req.query.creditCard);
-  const creditCard = req.query.creditCard;
+  const email = req.body.email;
+  //const password = encrypt(req.body.password);
+  const password = req.body.password;
+  const fullName = req.body.fullName;
+  const address = req.body.address;
+  //const creditCard = encrypt(req.body.creditCard);
+  const creditCard = req.body.creditCard;
   //order history in different table
 
   db.all("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
@@ -135,7 +137,7 @@ app.post("/register", (req, res) => {
   });
 });
 app.post("/get-user", (req, res) => {
-  const userId = req.query.userId;
+  const userId = req.body.userId;
   db.all("SELECT * FROM users WHERE id = ?", [userId], (err, result) => {
     if (err) {
       res.send({
@@ -157,10 +159,10 @@ app.post("/add-order-history", (req, res) => {
   //orderId is auto_incremented
 
   //order history based on UserId
-  const userId = req.query.userId;
-  const movieId = req.query.movieId;
+  const userId = req.body.userId;
+  const movieId = req.body.movieId;
   //movieId is a seperate table
-  const dateTimeSlot = req.query.dateTimeSlot;
+  const dateTimeSlot = req.body.dateTimeSlot;
 
   db.all(
     "INSERT INTO orderHistory (userId, movieId, dateTimeSlot) VALUES (?,?,?)",
@@ -178,7 +180,7 @@ app.post("/add-order-history", (req, res) => {
   );
 });
 app.post("/get-user-order-history", (req, res) => {
-  const userId = req.query.userId;
+  const userId = req.body.userId;
   db.all(
     "SELECT * FROM orderHistory WHERE userId = ?",
     [userId],
@@ -200,7 +202,7 @@ app.post("/get-user-order-history", (req, res) => {
   );
 });
 app.post("/get-order", (req, res) => {
-  const orderId = req.query.orderId;
+  const orderId = req.body.orderId;
   db.all(
     "SELECT * FROM orderHistory WHERE orderId = ?",
     [orderId],
@@ -240,7 +242,7 @@ app.post("/get-all-movies", (req, res) => {
   });
 });
 app.post("/get-movie", (req, res) => {
-  const movieId = req.query.movieId;
+  const movieId = req.body.movieId;
   db.all("SELECT * FROM movies WHERE movieId = ?", [movieId], (err, result) => {
     if (err) {
       res.send({
@@ -258,9 +260,9 @@ app.post("/get-movie", (req, res) => {
   });
 });
 app.post("/get-actors", (req, res) => {
-    const actorId = req.query.actorId;
-    db.all("SELECT * FROM movies WHERE movieId = ?", [actorId], (err, result) => {
-        if (err) {
+    const actorName = req.body.actorName;
+    db.all("SELECT * FROM actor WHERE name = ?", [actorName], (err, result) => {
+      if (err) {
             res.send({
                 error: err,
             });
@@ -277,5 +279,5 @@ app.post("/get-actors", (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log("allning");
+  console.log("running");
 });
