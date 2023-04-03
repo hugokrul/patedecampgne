@@ -254,6 +254,24 @@ app.post("/get-movie", (req, res) => {
     }
   });
 });
+app.post("/get-actors", (req, res) => {
+    const actorId = req.body.actorId;
+    db.all("SELECT * FROM movies WHERE movieId = ?", [actorId], (err, result) => {
+        if (err) {
+            res.send({
+                error: err,
+            });
+        }
+
+        if (result.length > 0) {
+            res.send(result);
+        } else {
+            res.send({
+                message: "No actor found",
+            });
+        }
+    })
+})
 
 app.listen(port, () => {
   console.log("allning");
