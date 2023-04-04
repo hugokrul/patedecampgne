@@ -1,5 +1,5 @@
-var now = ['dungeons.jpg','johnwick4.jpg','maybeido.jpg','firstblood.jpg','65.jpg','creed3.jpg','scream6.jpg']
-var soon = ['beautifuldisaster.jpg','blacklotus.jpg','fastx.jpg','guardiansvol3.jpg','littlemermaid.png','mariobros.jpg','zomerfrankrijk.jpg']
+let now = []
+var soon = []
 const slidingContentElement = document.getElementById("slidingcontent");
 const slidingContentElement2 = document.getElementById("slidingcontent2");
 
@@ -9,6 +9,18 @@ function resetState() {
     }
     while(slidingContentElement2.firstChild){
         slidingContentElement2.removeChild(slidingContentElement2.firstChild)
+    }
+}
+
+async function getMovies() {
+    let response = await fetch('/get-all-movies')
+    let data = await response.json();
+    for (let i=0; i<data.length; i++) {
+        if (data[i].nowPlaying) {
+            now.push(`${data[i].title.replace(/ /g, '-').replace(/:/g, '').replace('.', '')}.jpg`)
+        } else {
+            soon.push(`${data[i].title.replace(/ /g, '-').replace(/:/g, '').replace('.', '')}.jpg`)
+        }
     }
 }
 

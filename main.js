@@ -259,6 +259,21 @@ app.post("/get-movie", (req, res) => {
     }
   });
 });
+app.get("/get-all-movies", (req, res) => {
+  db.all("SELECT * FROM movies", (err, result) => {
+    if (err) {
+      res.send({
+        error: err,
+      });
+    }
+
+    if (result.length > 0) {
+      res.send(result)
+    } else {
+      res.send({message: "no movies",})
+    }
+  })
+})
 app.post("/get-actors", (req, res) => {
     const actorName = req.body.actorName;
     db.all("SELECT * FROM actor WHERE name = ?", [actorName], (err, result) => {
