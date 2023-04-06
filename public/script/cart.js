@@ -10,11 +10,11 @@ if (cartArray !== null && cartArray !== undefined) {
     getAllMovieDataFromCart().then((response) => {
       movieArray = response;
       renderCartItems();
+      const clearCartBtn = document.createElement("button");
+      clearCartBtn.innerText = "Clear Cart";
+      clearCartBtn.addEventListener("click", clearCart);
+      movieList.appendChild(clearCartBtn);
     });
-    const clearCartBtn = document.createElement("button");
-    clearCartBtn.innerText = "Clear Cart";
-    clearCartBtn.addEventListener("click", clearCart);
-    movieList.appendChild(clearCartBtn);
   } else {
     renderEmptyCart();
   }
