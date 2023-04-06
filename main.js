@@ -293,6 +293,43 @@ app.post("/get-actors", (req, res) => {
     })
 })
 
+app.get("/get-movie/:id", function(req, res) {
+  const movieId = req.params.id
+  db.all("SELECT * FROM movies WHERE movieId = ?", [movieId], (err, result) => {
+    if (err) {
+      res.send({error: err,});
+    }
+  
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.send({
+        message: "No movie found"
+      })
+    }
+  })
+})
+
+app.get("/all-actors-of-movie/:id", function(req, res) {
+  const movieId = req.params.id;
+  db.all("SELECT actor.name FROM actor, actorInMovie WHERE actor.actorId = actorInMovie.actorId AND actorInMovie.movieId = ?", [movieId], (err, result) => {
+    if(err) {
+      res.send({error: err})
+    }
+
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.send({message: "no actors in movie"})
+    }
+  })
+})
+
+app.get(/^\/movies\/(\d+)$/, function(req, res) {
+  res.sendFile(path.join(__dirname+'/public/html/selectedMovie.html'));
+  console.log(parseInt(req.params[0], 10))
+})
+
 app.listen(port, () => {
   console.log("running");
 });
