@@ -1,4 +1,5 @@
 const express = require("express");
+const morgan = require("morgan")
 let bodyParser = require("body-parser");
 
 const app = express();
@@ -7,6 +8,7 @@ const port = 8005;
 
 const staticPath = path.join(__dirname, "public");
 
+app.use(morgan('tiny'))
 app.use(express.static(staticPath));
 app.use(bodyParser.urlencoded({
   extended: true

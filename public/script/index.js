@@ -61,7 +61,7 @@ function showSoon() {
         imageElement.classList.add("marquee-tag-icon")
         containerElement.appendChild(imageElement)
         aElement.appendChild(containerElement);
-        slidingContentElement.appendChild(aElement)
+        slidingContentElement2.appendChild(aElement)
     }
 }
 
@@ -95,6 +95,6 @@ function showNow() {
         imageElement.classList.add("marquee-tag-icon")
         containerElement.appendChild(imageElement)
         aElement.appendChild(containerElement);
-        slidingContentElement.appendChild(aElement)
+        slidingContentElement2.appendChild(aElement)
     }
 } 
