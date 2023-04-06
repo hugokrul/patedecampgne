@@ -5,17 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/index.css">
     <title>Document</title>
 </head>
-<body>
-    <form name="data" method="post" action="/get-actors">
-        <p>
-            actor: 
-            <input type="text" name="actorName" id="actorName" placeholder="chris evans" required>
-        </p>
-        <p>
-            <input type="submit" value="Submit"/>
-        </p>
-    </form>
+<body onload="getMovies()">
+    <section class="now">
+      <div class="container">
+        <button onclick="showNow()">Now</button>
+        <button onclick="showSoon()">Soon</button>
+        <div class="marquee-wrapper">
+          <div class="marquee">
+            <div class="marquee-group" id="slidingcontent">
+            </div>
+            <div class="marquee-group" id="slidingcontent2" aria-hidden="true">
+            </div>
+          </div>
+        </div>      
+      </div>
+    </section>
 </body>
+<script src="/script/index.js"></script>
 </html>
