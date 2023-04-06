@@ -3,9 +3,13 @@ const movieList = document.getElementById("movieList");
 let cartArray = localStorage.getItem("moviesInCartIds");
 let movieArray;
 
+if (cartArray === "") {
+  localStorage.removeItem("moviesInCartIds");
+  location.reload();
+}
+
 if (cartArray !== null && cartArray !== undefined) {
   cartArray = cartArray.split(",");
-  console.log(cartArray);
   if (cartArray.length > 0) {
     getAllMovieDataFromCart().then((response) => {
       movieArray = response;
@@ -104,14 +108,30 @@ function renderCartItems() {
     //movieAmount Change
 
     counterInput.addEventListener("change", function () {
-      let currentCartListArr = movieArray;
-      //get the current movie
-      currentCartListArr[index] =
-        indMovie.movieId +
-        "-" +
-        document.getElementById("orderCounterInput" + indMovie.movieId).value;
+      let newValue = document.getElementById(
+        "orderCounterInput" + indMovie.movieId
+      ).value;
+      let currentCartListArr = cartArray;
+      let currentCartList;
 
-      localStorage.setItem("moviesInCartIds", currentCartListArr.toString(","));
+      if (newValue > 0) {
+        //get the current movie
+
+        currentCartListArr[index] = indMovie.movieId + "-" + newValue;
+        currentCartList = currentCartListArr.toString(",");
+      } else {
+        if (currentCartListArr.length > 1) {
+          currentCartListArr.splice(index, 1); //Second parameter means remove one item only
+          console.log(currentCartListArr);
+
+          currentCartList = currentCartListArr.toString(",");
+        } else {
+          localStorage.removeItem("moviesInCartIds");
+          location.reload();
+        }
+      }
+      console.log(currentCartList);
+      localStorage.setItem("moviesInCartIds", currentCartList);
       location.reload();
     });
 
