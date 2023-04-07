@@ -181,8 +181,8 @@ app.post("/add-order-history", (req, res) => {
     }
   );
 });
-app.post("/get-user-order-history", (req, res) => {
-  const userId = req.body.userId;
+app.post("/get-user-order-history/:userId", (req, res) => {
+  const userId = req.params.userId;
   db.all(
     "SELECT * FROM orderHistory WHERE userId = ?",
     [userId],
