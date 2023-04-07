@@ -101,7 +101,7 @@ app.get("/koen", (req, res) => {
   });
 });
 
-app.post("/user-register/:credentials", (req, res) => {
+app.post("/user-register/:credentials", async (req, res) => {
   let credentials = req.params.credentials;
   let credentialsArray = credentials.split(",");
 
@@ -125,7 +125,7 @@ app.post("/user-register/:credentials", (req, res) => {
     if (result[0] === undefined) {
       db.all(
         "INSERT INTO users (email, password, fullName, address, creditCard, registerDate) VALUES (?,?,?,?,?,?,?,?)",
-        [email, password, fullName, address, creditCard, Date()],
+        [email, password, "test", fullName, address, creditCard, "test", Date()],
         (error, result2) => {
           if (error) {
             console.log(error);
