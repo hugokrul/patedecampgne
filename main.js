@@ -101,16 +101,25 @@ app.get("/koen", (req, res) => {
   });
 });
 
-app.post("/user-register", (req, res) => {
-  //userId: auto_increment
-  const email = req.body.email;
-  //const password = encrypt(req.body.password);
-  const password = req.body.password;
-  const fullName = req.body.fullName;
-  const address = req.body.address;
-  //const creditCard = encrypt(req.body.creditCard);
-  const creditCard = req.body.creditCard;
-  //order history in different table
+app.post("/user-register/:credentials", (req, res) => {
+  let credentials = req.params.credentials;
+  let credentialsArray = credentials.split(",");
+
+  const email = credentialsArray[0];
+  const password = credentialsArray[1];
+  const fullName = credentialsArray[2];
+  const address = credentialsArray[3];
+  const creditCard = credentialsArray[4];
+  
+  // //userId: auto_increment
+  // const email = req.body.email;
+  // //const password = encrypt(req.body.password);
+  // const password = req.body.password;
+  // const fullName = req.body.fullName;
+  // const address = req.body.address;
+  // //const creditCard = encrypt(req.body.creditCard);
+  // const creditCard = req.body.creditCard;
+  // //order history in different table
 
   db.all("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
     if (result[0] === undefined) {
