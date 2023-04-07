@@ -242,24 +242,7 @@ app.post("/get-all-movies", (req, res) => {
     }
   });
 });
-app.post("/get-movie", (req, res) => {
-  const movieId = req.body.movieId;
-  db.all("SELECT * FROM movies WHERE movieId = ?", [movieId], (err, result) => {
-    if (err) {
-      res.send({
-        error: err,
-      });
-    }
 
-    if (result.length > 0) {
-      res.send(result);
-    } else {
-      res.send({
-        message: "No movie found",
-      });
-    }
-  });
-});
 app.get("/get-all-movies", (req, res) => {
   db.all("SELECT * FROM movies", (err, result) => {
     if (err) {
@@ -338,15 +321,18 @@ app.get(/^\/movies\/(\d+)$/, function (req, res) {
 app.get("/cart", function (req, res) {
   res.sendFile(path.join(__dirname + "/public/html/cart.html"));
 });
-app.get(/^\/movies\/(\d+)$/, function(req, res) {
-  res.sendFile(path.join(__dirname+'/public/html/selectedMovie.html'));
-})
+app.get(/^\/movies\/(\d+)$/, function (req, res) {
+  res.sendFile(path.join(__dirname + "/public/html/selectedMovie.html"));
+});
 
 app.get("/login", function (req, res) {
   res.sendFile(path.join(__dirname + "/public/html/login.html"));
 });
 app.get("/register", function (req, res) {
   res.sendFile(path.join(__dirname + "/public/html/register.html"));
+});
+app.get("/profile", function (req, res) {
+  res.sendFile(path.join(__dirname + "/public/html/profile.html"));
 });
 
 app.listen(port, () => {
