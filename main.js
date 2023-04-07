@@ -339,6 +339,9 @@ app.get(/^\/movies\/(\d+)$/, function (req, res) {
 app.get("/cart", function (req, res) {
   res.sendFile(path.join(__dirname + "/public/html/cart.html"));
 });
+app.get(/^\/movies\/(\d+)$/, function(req, res) {
+  res.sendFile(path.join(__dirname+'/public/html/selectedMovie.html'));
+})
 
 app.listen(port, () => {
   console.log("running");
