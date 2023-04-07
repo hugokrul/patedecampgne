@@ -8,9 +8,11 @@ const port = 8005;
 const staticPath = path.join(__dirname, "public");
 
 app.use(express.static(staticPath));
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 //dotenv
 const dotenv = require("dotenv").config();
@@ -52,23 +54,22 @@ function decrypt(text) {
   return decrypted.toString();
 }
 
-app.post("/login", async (req, res) => {
+app.post("/user-login/:credentials", async (req, res) => {
   //USE req.body FOR CUSTOM JS IN FRONTEND
   //USE req.body FOR FORMS IN FRONTEND
 
-  let email = req.body.email;
-  let password = req.body.password;
+  let credentials = req.params.credentials;
+  let credentialsArray = credentials.split(",");
 
-  db.all(
-    "SELECT * FROM users WHERE email = ?",
-    [email, password],
-    (err, result) => {
-      if (err) {
-        res.send({
-          error: err,
-        });
-      }
+  const email = credentialsArray[0];
+  const password = credentialsArray[1];
 
+  db.all("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+    if (err) {
+      res.send({
+        error: err,
+      });
+    } else {
       if (result.length > 0) {
         let user = result[0];
         let decryptedPassword = user.password;
@@ -89,7 +90,7 @@ app.post("/login", async (req, res) => {
         });
       }
     }
-  );
+  });
 });
 
 app.get("/koen", (req, res) => {
@@ -100,7 +101,7 @@ app.get("/koen", (req, res) => {
   });
 });
 
-app.post("/register", (req, res) => {
+app.post("/user-register", (req, res) => {
   //userId: auto_increment
   const email = req.body.email;
   //const password = encrypt(req.body.password);
@@ -260,23 +261,30 @@ app.post("/get-movie", (req, res) => {
   });
 });
 app.post("/get-actors", (req, res) => {
-    const actorName = req.body.actorName;
-    db.all("SELECT * FROM actor WHERE name = ?", [actorName], (err, result) => {
-      if (err) {
-            res.send({
-                error: err,
-            });
-        }
+  const actorName = req.body.actorName;
+  db.all("SELECT * FROM actor WHERE name = ?", [actorName], (err, result) => {
+    if (err) {
+      res.send({
+        error: err,
+      });
+    }
 
-        if (result.length > 0) {
-            res.send(result);
-        } else {
-            res.send({
-                message: "No actor found",
-            });
-        }
-    })
-})
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.send({
+        message: "No actor found",
+      });
+    }
+  });
+});
+
+app.get("/login", function (req, res) {
+  res.sendFile(path.join(__dirname + "/public/html/login.html"));
+});
+app.get("/register", function (req, res) {
+  res.sendFile(path.join(__dirname + "/public/html/register.html"));
+});
 
 app.listen(port, () => {
   console.log("running");
