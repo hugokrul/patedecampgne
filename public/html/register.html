@@ -2,7 +2,7 @@
 <html>
   <head> </head>
   <body>
-    <form method="POST" action="/user-register">
+    <form id="registerForm">
       <h1>Create new account</h1>
 
       <div class="form-group">
@@ -21,7 +21,7 @@
         <label id="password" for="password">Enter password</label>
         <input
           type="password"
-          id="password"
+          id="passwordInput"
           class="form-control"
           name="password"
           placeholder="password"
@@ -29,12 +29,12 @@
         />
       </div>
       <div class="form-group">
-        <label id="fullname" for="fullName">Enter full name</label>
+        <label id="fullname" for="fullname">Enter full name</label>
         <input
-          type="name"
-          id="fullName"
+          type="fullname"
+          id="fullnameInput"
           class="form-control"
-          name="fullName"
+          name="fullname"
           placeholder="Full name"
         />
       </div>
@@ -42,7 +42,7 @@
         <label id="address" for="address">Enter address</label>
         <input
           type="address"
-          id="address"
+          id="addressInput"
           class="form-control"
           name="address"
           placeholder="Address"
@@ -52,7 +52,7 @@
         <label id="creditCard" for="creditCard">Enter creditcard number</label>
         <input
           type="creditCard"
-          id="creditCard"
+          id="creditCardInput"
           class="form-control"
           name="creditCard"
           placeholder="Creditcard number"
