@@ -329,7 +329,6 @@ app.get("/all-actors-of-movie/:id", function(req, res) {
 
 app.get(/^\/movies\/(\d+)$/, function(req, res) {
   res.sendFile(path.join(__dirname+'/public/html/selectedMovie.html'));
-  console.log(parseInt(req.params[0], 10))
 })
 
 app.listen(port, () => {
