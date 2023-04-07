@@ -54,23 +54,22 @@ function decrypt(text) {
   return decrypted.toString();
 }
 
-app.post("/login", async (req, res) => {
+app.post("/user-login/:credentials", async (req, res) => {
   //USE req.body FOR CUSTOM JS IN FRONTEND
   //USE req.body FOR FORMS IN FRONTEND
 
-  let email = req.body.email;
-  let password = req.body.password;
+  let credentials = req.params.credentials;
+  let credentialsArray = credentials.split(",");
 
-  db.all(
-    "SELECT * FROM users WHERE email = ?",
-    [email, password],
-    (err, result) => {
-      if (err) {
-        res.send({
-          error: err,
-        });
-      }
+  const email = credentialsArray[0];
+  const password = credentialsArray[1];
 
+  db.all("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+    if (err) {
+      res.send({
+        error: err,
+      });
+    } else {
       if (result.length > 0) {
         let user = result[0];
         let decryptedPassword = user.password;
@@ -91,7 +90,7 @@ app.post("/login", async (req, res) => {
         });
       }
     }
-  );
+  });
 });
 
 app.get("/koen", (req, res) => {
@@ -102,7 +101,7 @@ app.get("/koen", (req, res) => {
   });
 });
 
-app.post("/register", (req, res) => {
+app.post("/user-register", (req, res) => {
   //userId: auto_increment
   const email = req.body.email;
   //const password = encrypt(req.body.password);
@@ -342,6 +341,13 @@ app.get("/cart", function (req, res) {
 app.get(/^\/movies\/(\d+)$/, function(req, res) {
   res.sendFile(path.join(__dirname+'/public/html/selectedMovie.html'));
 })
+
+app.get("/login", function (req, res) {
+  res.sendFile(path.join(__dirname + "/public/html/login.html"));
+});
+app.get("/register", function (req, res) {
+  res.sendFile(path.join(__dirname + "/public/html/register.html"));
+});
 
 app.listen(port, () => {
   console.log("running");
