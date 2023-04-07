@@ -1,5 +1,5 @@
 const express = require("express");
-const morgan = require("morgan")
+const morgan = require("morgan");
 let bodyParser = require("body-parser");
 
 const app = express();
@@ -8,11 +8,13 @@ const port = 8005;
 
 const staticPath = path.join(__dirname, "public");
 
-app.use(morgan('tiny'))
+app.use(morgan("tiny"));
 app.use(express.static(staticPath));
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 //dotenv
 const dotenv = require("dotenv").config();
@@ -32,8 +34,6 @@ if (!exists) {
   fs.openSync(file, "w");
 }
 let db = new sqlite3.Database(file);
-
-//!!!!!!!!!!!!!!db.close();
 
 //Encrypting text
 function encrypt(text) {
@@ -270,63 +270,75 @@ app.get("/get-all-movies", (req, res) => {
     }
 
     if (result.length > 0) {
-      res.send(result)
+      res.send(result);
     } else {
-      res.send({message: "no movies",})
+      res.send({ message: "no movies" });
     }
-  })
-})
+  });
+});
 app.post("/get-actors", (req, res) => {
-    const actorName = req.body.actorName;
-    db.all("SELECT * FROM actor WHERE name = ?", [actorName], (err, result) => {
-      if (err) {
-            res.send({
-                error: err,
-            });
-        }
-
-        if (result.length > 0) {
-            res.send(result);
-        } else {
-            res.send({
-                message: "No actor found",
-            });
-        }
-    })
-})
-
-app.get("/get-movie/:id", function(req, res) {
-  const movieId = req.params.id
-  db.all("SELECT * FROM movies WHERE movieId = ?", [movieId], (err, result) => {
+  const actorName = req.body.actorName;
+  db.all("SELECT * FROM actor WHERE name = ?", [actorName], (err, result) => {
     if (err) {
-      res.send({error: err,});
+      res.send({
+        error: err,
+      });
     }
-  
+
     if (result.length > 0) {
       res.send(result);
     } else {
       res.send({
-        message: "No movie found"
-      })
+        message: "No actor found",
+      });
     }
-  })
-})
+  });
+});
 
-app.get("/all-actors-of-movie/:id", function(req, res) {
+app.get("/get-movie/:id", function (req, res) {
   const movieId = req.params.id;
-  db.all("SELECT actor.name FROM actor, actorInMovie WHERE actor.actorId = actorInMovie.actorId AND actorInMovie.movieId = ?", [movieId], (err, result) => {
-    if(err) {
-      res.send({error: err})
+  db.all("SELECT * FROM movies WHERE movieId = ?", [movieId], (err, result) => {
+    if (err) {
+      res.send({ error: err });
     }
 
     if (result.length > 0) {
       res.send(result);
     } else {
-      res.send({message: "no actors in movie"})
+      res.send({
+        message: "No movie found",
+      });
     }
-  })
-})
+  });
+});
 
+app.get("/all-actors-of-movie/:id", function (req, res) {
+  const movieId = req.params.id;
+  db.all(
+    "SELECT actor.name FROM actor, actorInMovie WHERE actor.actorId = actorInMovie.actorId AND actorInMovie.movieId = ?",
+    [movieId],
+    (err, result) => {
+      if (err) {
+        res.send({ error: err });
+      }
+
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send({ message: "no actors in movie" });
+      }
+    }
+  );
+});
+
+app.get(/^\/movies\/(\d+)$/, function (req, res) {
+  res.sendFile(path.join(__dirname + "/public/html/selectedMovie.html"));
+  console.log(parseInt(req.params[0], 10));
+});
+
+app.get("/cart", function (req, res) {
+  res.sendFile(path.join(__dirname + "/public/html/cart.html"));
+});
 app.get(/^\/movies\/(\d+)$/, function(req, res) {
   res.sendFile(path.join(__dirname+'/public/html/selectedMovie.html'));
 })
