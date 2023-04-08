@@ -9,7 +9,7 @@ loginForm.addEventListener("submit", (event) => {
   let credentials = email + "," + password;
 
   // TODO do something here to show user that form is being submitted
-  fetch(`/group5/user-login/${credentials}`, {
+  fetch(`/user-login/${credentials}`, {
     method: "POST",
     //new URLSearchParams(new FormData(event.target)), // event.target is the form
   })

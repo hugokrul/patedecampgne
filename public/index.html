@@ -6,23 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/index.css">
+    <link rel="stylesheet" href="style/nav.css">
     <title>Document</title>
 </head>
 <body onload="getMovies()">
-    <section class="now">
-      <div class="container">
-        <button onclick="showNow()">Now</button>
-        <button onclick="showSoon()">Soon</button>
-        <div class="marquee-wrapper">
-          <div class="marquee">
-            <div class="marquee-group" id="slidingcontent">
-            </div>
-            <div aria-hidden="true" class="marquee-group" id="slidingcontent2">
-            </div>
+  <header>
+    <nav>
+      <ul>
+          <div class="left">
+            <li><a class="active" href="/">HOME</a></li>
+            <li><a href="/cart">CART</a></li>
           </div>
-        </div>      
-      </div>
-    </section>
-    <script type="text/javascript" src="script/index.js"></script>
+          <div id="loginRegister" class="right">
+          </div>
+      </ul>
+    </nav>
+  </header>
+  <section class="title">
+    <h1>Paté de Campagne</h1>
+  </section>
+  <section class="now">
+    <div class="inline">
+      <button class='button-68' onclick="showNow()">Now</button>
+      <button class='button-68' onclick="showSoon()">Soon</button>
+    </div>
+    <div class="container">
+      <div class="marquee-wrapper">
+        <div class="marquee">
+          <div class="marquee-group" id="slidingcontent">
+          </div>
+          <div aria-hidden="true" class="marquee-group" id="slidingcontent2">
+          </div>
+        </div>
+      </div>      
+    </div>
+  </section>
+  <script type="text/javascript" src="script/index.js"></script>
+  <script type="text/javascript" src="script/nav.js"></script>
 </body>
 </html>

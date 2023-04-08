@@ -1,7 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head> </head>
+  <head> 
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/nav.css">
+  </head>
   <body>
+    <header>
+      <nav>
+        <ul>
+            <div class="left">
+              <li><a class="active" href="/">HOME</a></li>
+              <li><a href="/cart">CART</a></li>
+            </div>
+            <div id="loginRegister" class="right">
+            </div>
+        </ul>
+      </nav>
+    </header>
     <form method="POST" action="/user-register">
       <h1>Create new account</h1>
 
@@ -61,6 +76,7 @@
       <input type="submit" value="Submit" />
       <!-- <button id="btnsubmit" type="submit" class="btn btn-primary" [disabled]="(!keyup() || !loginForm.form.valid)">Create new account</button> -->
     </form>
+    <script type="text/javascript" src="script/nav.js"></script>
   </body>
   <script src="script/login.js"></script>
 </html>

@@ -155,7 +155,20 @@ app.post("/get-user", (req, res) => {
     }
   });
 });
+app.get("/get-user/:id", (req, res) => {
+  const userId = req.params.id
+  db.all("SELECT * FROM users where userId = ?", [userId], (err, result) => {
+    if (err) {
+      res.send({error: err,})
+    }
 
+    if (result.length > 0) {
+      res.send(result)
+    } else {
+      res.send({message: "no accounts found"})
+    }
+  })
+})
 app.post("/add-order-history", (req, res) => {
   //orderId is auto_incremented
 
@@ -338,10 +351,6 @@ app.get(/^\/movies\/(\d+)$/, function (req, res) {
 app.get("/cart", function (req, res) {
   res.sendFile(path.join(__dirname + "/public/html/cart.html"));
 });
-app.get(/^\/movies\/(\d+)$/, function(req, res) {
-  res.sendFile(path.join(__dirname+'/public/html/selectedMovie.html'));
-})
-
 app.get("/login", function (req, res) {
   res.sendFile(path.join(__dirname + "/public/html/login.html"));
 });

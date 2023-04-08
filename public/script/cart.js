@@ -1,4 +1,7 @@
 const movieList = document.getElementById("movieList");
+const paymentDetailsElement = document.getElementById("paymentDetails")
+
+const userId = parseInt(localStorage.getItem("userId"));
 
 let cartArray = localStorage.getItem("moviesInCartIds");
 let movieArray;
@@ -34,11 +37,42 @@ function renderEmptyCart() {
   const exploreMoviesBtn = document.createElement("button");
   exploreMoviesBtn.innerText = "Explore Movies";
   exploreMoviesBtn.addEventListener("click", function () {
-    window.location.href = "/group5";
+    window.location.href = "/";
   });
 
   movieList.appendChild(emptyCartText);
   movieList.appendChild(exploreMoviesBtn);
+}
+
+async function renderPaymentDetails() {
+  let user = await fetch(`/get-user/${userId}`)
+  let dataList = await user.json()
+  let data = dataList[0]
+  if (data.fullName) {
+    let username = data.fullName;
+    let creditCard = data.creditCard;
+    let address = data.address;
+  
+    let usernameElement = document.createElement('p');
+    usernameElement.innerText = `Hello, ${username}!`
+  
+    let creditCardElement = document.createElement('p');
+    creditCardElement.innerText = `Creditcard: ${creditCard}`;
+  
+    let addressElement = document.createElement('p');
+    addressElement.innerText = `Address: ${address}`;
+  
+    paymentDetailsElement.appendChild(usernameElement);
+    paymentDetailsElement.appendChild(creditCardElement);
+    paymentDetailsElement.appendChild(addressElement);
+  } else {
+    const loginLink = document.createElement('a');
+    loginLink.innerText = 'Login';
+    loginLink.setAttribute('href', '/login');
+
+    paymentDetailsElement.appendChild(loginLink)
+  }
+  
 }
 
 function getAllMovieDataFromCart() {
@@ -57,7 +91,7 @@ function getAllMovieDataFromCart() {
 }
 
 async function getMovieData(movieId, amount = 1) {
-  let response = await fetch(`/group5/get-movie/${movieId}`);
+  let response = await fetch(`/get-movie/${movieId}`);
   let data = await response.json();
   data = data[0];
   data.amountInCart = parseInt(amount);
@@ -123,11 +157,11 @@ function renderCartItems() {
         if (currentCartListArr.length > 1) {
           currentCartListArr.splice(index, 1); //Second parameter means remove one item only
           console.log(currentCartListArr);
-
           currentCartList = currentCartListArr.toString(",");
         } else {
           localStorage.removeItem("moviesInCartIds");
           location.reload();
+          return;
         }
       }
       console.log(currentCartList);

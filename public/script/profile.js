@@ -1,6 +1,6 @@
 async function getUserOrderHistory() {
   let userId = parseInt(localStorage.getItem("userId"));
-  let response = await fetch(`/group5/get-user-order-history/${userId}`);
+  let response = await fetch(`/get-user-order-history/${userId}`);
   let dataArray = await response.json();
 
   dataArray.map((indOrder, index) => {

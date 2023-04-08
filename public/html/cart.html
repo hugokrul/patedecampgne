@@ -6,9 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style/cart.css" />
     <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/nav.css">
     <title>Cart</title>
   </head>
-  <body>
+  <body onload="renderPaymentDetails()">
+    <header>
+      <nav>
+        <ul>
+          <div class="left">
+            <li><a href="/">HOME</a></li>
+            <li><a class="active" href="/cart">CART</a></li>
+          </div>
+          <div id="loginRegister" class="right">
+            <li></li>
+          </div>
+        </ul>
+      </nav>
+    </header>
     <section>
       <div class="column11">
         <div>
@@ -24,5 +38,6 @@
       </div>
     </section>
     <script src="script/cart.js"></script>
+    <script src="script/nav.js"></script>
   </body>
 </html>
