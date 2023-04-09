@@ -109,7 +109,7 @@ app.post("/user-register/:credentials", async (req, res) => {
   const password = credentialsArray[1];
   const fullName = credentialsArray[2];
   const address = credentialsArray[3];
-  const creditCard = credentialsArray[4];
+  const creditCard = parseInt(credentialsArray[4]);
   
   // //userId: auto_increment
   // const email = req.body.email;
@@ -124,13 +124,13 @@ app.post("/user-register/:credentials", async (req, res) => {
   db.all("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
     if (result[0] === undefined) {
       db.all(
-        "INSERT INTO users (email, password, fullName, address, creditCard, registerDate) VALUES (?,?,?,?,?,?,?,?)",
-        [email, password, "test", fullName, address, creditCard, "test", Date()],
+        "INSERT INTO users (email, password, password_iv, fullName, address, creditCard, creditCard_iv) VALUES (?,?,?,?,?,?,?)",
+        [email, password, "test", fullName, address, creditCard, 123],
         (error, result2) => {
           if (error) {
             console.log(error);
             res.send({
-              message: err,
+              message: error,
             });
           } else {
             res.send(result2);
