@@ -1,6 +1,10 @@
 const profileDetailsElement = document.getElementById("profileDetails")
 const userId = parseInt(localStorage.getItem("userId"));
 
+function logOut(){
+  localStorage.removeItem("userId")
+}
+
 async function getUserOrderHistory() {
   let userId = parseInt(localStorage.getItem("userId"));
   let response = await fetch(`/get-user-order-history/${userId}`, {
@@ -16,6 +20,9 @@ async function getUserOrderHistory() {
 
     document.getElementsByTagName(body).appendChild(orderContainer);
   });
+  if (message== "No history found"){
+    alert('No order history found')
+  }
 }
 
 async function renderProfileDetails() {
@@ -46,6 +53,12 @@ async function renderProfileDetails() {
     profileDetailsElement.appendChild(addressElement);
 
     getUserOrderHistory()
+    
+    const logoutLink = document.createElement('a');
+    logoutLink.innerText = 'Logout';
+    logoutLink.addEventListener(onclick, logOut())
+    logoutLink.setAttribute('href', '/');
+  
   } else {
     const loginLink = document.createElement('a');
     loginLink.innerText = 'Login';
