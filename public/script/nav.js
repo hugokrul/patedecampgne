@@ -16,6 +16,7 @@ function Continue(data) {
         let listElement = document.createElement('li');
         let listElementA = document.createElement('a');
         listElementA.innerText = `HALLO, ${data.fullName.toUpperCase()}`;
+        listElementA.setAttribute('href', '/profile')
         listElement.appendChild(listElementA);
 
         loginRegisterElement.appendChild(listElement)

@@ -26,6 +26,7 @@ const key = env.CRYPTOKEY;
 
 //database
 const fs = require("fs");
+const { log } = require("console");
 const sqlite3 = require("sqlite3").verbose();
 
 let file = __dirname + "/" + "pateDeCampagne.db";
@@ -179,32 +180,28 @@ app.get("/get-user/:id", (req, res) => {
     }
   })
 })
-app.post("/add-order-history/:userId/:movieId/:dateTimeSlot", (req, res) => {
+app.post("/add-order-history/:userId&:movieId&:amount&:dateTimeSlot", (req, res) => {
   //orderId is auto_incremented
-
   //order history based on UserId
   const userId = req.params.userId;
   const movieId = req.params.movieId;
-  //movieId is a seperate table
+  const amount = req.params.amount;
   const dateTimeSlot = req.params.dateTimeSlot;
-  console.log(userId)
-  console.log(movieId)
-  console.log(dateTimeSlot)
-
-  // db.all(
-  //   "INSERT INTO orderHistory (userId, movieId, dateTimeSlot) VALUES (?,?,?)",
-  //   [userId, movieId, dateTimeSlot],
-  //   (error, result) => {
-  //     if (error) {
-  //       console.log(error);
-  //       res.send({
-  //         message: err,
-  //       });
-  //     } else {
-  //       res.send(result);
-  //     }
-  //   }
-  // );
+  //movieId is a seperate table
+  db.all(
+    "INSERT INTO orderHistory (userId, movieId, amount, dateTimeSlot) VALUES (?, ?,?,?)",
+    [userId, movieId, amount, dateTimeSlot],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        res.send({
+          message: err,
+        });
+      } else {
+        res.send(result);
+      }
+    }
+  );
 });
 app.post("/get-user-order-history/:userId", (req, res) => {
   const userId = req.params.userId;

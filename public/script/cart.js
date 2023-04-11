@@ -20,13 +20,22 @@ if (cartArray !== null && cartArray !== undefined) {
       const buttonElement = document.createElement("div");
       const clearCartBtn = document.createElement("button");
       clearCartBtn.innerText = "Clear Cart";
+      clearCartBtn.classList.add("button-68")
       clearCartBtn.addEventListener("click", clearCart);
       buttonElement.appendChild(clearCartBtn);
+      buttonElement.style.display = "flex";
+      buttonElement.style.justifyContent = "space-between"
 
       if (userId) {
         const placeOrderBtn = document.createElement("button");
         placeOrderBtn.innerText = "Place Order";
+        placeOrderBtn.classList.add("button-68")
         placeOrderBtn.addEventListener("click", placeOrder)
+        buttonElement.appendChild(placeOrderBtn)
+      } else {
+        const messageElement = document.createElement('p');
+        messageElement.innerText = "You first need to login!"
+        buttonElement.appendChild(messageElement)
       }
 
       movieList.appendChild(buttonElement);
@@ -39,12 +48,18 @@ if (cartArray !== null && cartArray !== undefined) {
 }
 
 async function placeOrder() {
-  cartArray.forEach((movie) => {
+  cartArray.forEach(async (movie) => {
     const movieId = movie.split('-')[0]
     const amount = movie.split('-')[1]
+
+    let mov = await fetch(`/get-movie/${movieId}`)
+    mov = await mov.json()
+    mov = mov[0]
     
-    
+    await fetch(`/add-order-history/${userId}&${movieId}&${amount}&${mov.playingSpan}`, {method: "POST"});
   })
+  alert('Order complete!')
+  clearCart(false);
 } 
 
 function renderEmptyCart() {
@@ -201,9 +216,14 @@ function renderCartItems() {
   });
 }
 
-function clearCart() {
-  if (confirm("Are you sure you want to delete your entire cart?")) {
+function clearCart(withAlert=true) {
+  if(withAlert) {
+    if (confirm("Are you sure you want to delete your entire cart?")) {
+      localStorage.removeItem("moviesInCartIds");
+      location.reload()
+    }
+  } else {
     localStorage.removeItem("moviesInCartIds");
-    location.reload();
+    location.reload()
   }
 }
