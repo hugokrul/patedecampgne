@@ -54,6 +54,3 @@ async function renderProfileDetails() {
   
 }
 
-function loginSucces() {
-  localStorage.setItem("userId", result.userId);
-}

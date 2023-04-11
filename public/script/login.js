@@ -22,6 +22,8 @@ loginForm.addEventListener("submit", (event) => {
     .then((body) => {
       // TODO handle body
       localStorage.setItem("userId", body[0].userId);
+      alert('You are logged in');
+      window.location.href = "/";
     })
     .catch((error) => {
       // TODO handle error
