@@ -57,7 +57,7 @@ async function renderProfileDetails() {
 
     getUserOrderHistory()
     
-    const logoutButton = document.createElement('button');
+    const logoutButton = document.createElement("button");
     logoutButton.innerText = 'Logout';
     logoutButton.className = 'button-68'
     logoutButton.onclick = logOut();
