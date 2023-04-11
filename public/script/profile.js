@@ -57,12 +57,13 @@ async function renderProfileDetails() {
 
     getUserOrderHistory()
     
-    const logoutLink = document.createElement('a');
-    logoutLink.innerText = 'Logout';
-    logoutLink.addEventListener(onclick, logOut())
-    logoutLink.setAttribute('href', '/');
+    const logoutButton = document.createElement('button');
+    logoutButton.innerText = 'Logout';
+    logoutButton.className = 'button-68'
+    logoutButton.onclick = logOut();
+    logoutButton.setAttribute('href', '/');
 
-    profileDetailsElement.appendChild(logoutLink)
+    profileDetailsElement.appendChild(logoutButton)
   
   } else {
     const loginLink = document.createElement('a');
