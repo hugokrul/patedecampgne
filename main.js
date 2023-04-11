@@ -179,29 +179,32 @@ app.get("/get-user/:id", (req, res) => {
     }
   })
 })
-app.post("/add-order-history", (req, res) => {
+app.post("/add-order-history/:userId/:movieId/:dateTimeSlot", (req, res) => {
   //orderId is auto_incremented
 
   //order history based on UserId
-  const userId = req.body.userId;
-  const movieId = req.body.movieId;
+  const userId = req.params.userId;
+  const movieId = req.params.movieId;
   //movieId is a seperate table
-  const dateTimeSlot = req.body.dateTimeSlot;
+  const dateTimeSlot = req.params.dateTimeSlot;
+  console.log(userId)
+  console.log(movieId)
+  console.log(dateTimeSlot)
 
-  db.all(
-    "INSERT INTO orderHistory (userId, movieId, dateTimeSlot) VALUES (?,?,?)",
-    [userId, movieId, dateTimeSlot],
-    (error, result) => {
-      if (error) {
-        console.log(error);
-        res.send({
-          message: err,
-        });
-      } else {
-        res.send(result);
-      }
-    }
-  );
+  // db.all(
+  //   "INSERT INTO orderHistory (userId, movieId, dateTimeSlot) VALUES (?,?,?)",
+  //   [userId, movieId, dateTimeSlot],
+  //   (error, result) => {
+  //     if (error) {
+  //       console.log(error);
+  //       res.send({
+  //         message: err,
+  //       });
+  //     } else {
+  //       res.send(result);
+  //     }
+  //   }
+  // );
 });
 app.post("/get-user-order-history/:userId", (req, res) => {
   const userId = req.params.userId;

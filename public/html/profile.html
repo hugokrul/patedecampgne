@@ -6,9 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style/profile.css" />
     <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/nav.css" />
     <title>Profile</title>
   </head>
-  <body onload="renderPaymentDetails()">
+  <body onload="renderProfileDetails()">
+    <header>
+      <nav>
+        <ul>
+            <div class="left">
+              <li><a class="active" href="/">HOME</a></li>
+              <li><a href="/cart">CART</a></li>
+            </div>
+            <div id="loginRegister" class="right">
+            </div>
+        </ul>
+      </nav>
+    </header>
     <section>
         <div class="column11">
           <div>
@@ -24,5 +37,6 @@
         </div>
       </section>
     <script src="script/profile.js"></script>
+    <script src="script/nav.js"></script>
   </body>
   </html>
