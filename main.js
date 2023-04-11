@@ -101,27 +101,36 @@ app.get("/koen", (req, res) => {
   });
 });
 
-app.post("/user-register", (req, res) => {
-  //userId: auto_increment
-  const email = req.body.email;
-  //const password = encrypt(req.body.password);
-  const password = req.body.password;
-  const fullName = req.body.fullName;
-  const address = req.body.address;
-  //const creditCard = encrypt(req.body.creditCard);
-  const creditCard = req.body.creditCard;
-  //order history in different table
+app.post("/user-register/:credentials", async (req, res) => {
+  let credentials = req.params.credentials;
+  let credentialsArray = credentials.split(",");
+
+  const email = credentialsArray[0];
+  const password = credentialsArray[1];
+  const fullName = credentialsArray[2];
+  const address = credentialsArray[3];
+  const creditCard = parseInt(credentialsArray[4]);
+  
+  // //userId: auto_increment
+  // const email = req.body.email;
+  // //const password = encrypt(req.body.password);
+  // const password = req.body.password;
+  // const fullName = req.body.fullName;
+  // const address = req.body.address;
+  // //const creditCard = encrypt(req.body.creditCard);
+  // const creditCard = req.body.creditCard;
+  // //order history in different table
 
   db.all("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
     if (result[0] === undefined) {
       db.all(
-        "INSERT INTO users (email, password, fullName, address, creditCard, registerDate) VALUES (?,?,?,?,?,?,?,?)",
-        [email, password, fullName, address, creditCard, Date()],
+        "INSERT INTO users (email, password, password_iv, fullName, address, creditCard, creditCard_iv) VALUES (?,?,?,?,?,?,?)",
+        [email, password, "test", fullName, address, creditCard, 123],
         (error, result2) => {
           if (error) {
             console.log(error);
             res.send({
-              message: err,
+              message: error,
             });
           } else {
             res.send(result2);
@@ -155,6 +164,7 @@ app.post("/get-user", (req, res) => {
     }
   });
 });
+
 app.get("/get-user/:id", (req, res) => {
   const userId = req.params.id
   db.all("SELECT * FROM users where userId = ?", [userId], (err, result) => {
