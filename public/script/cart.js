@@ -17,10 +17,19 @@ if (cartArray !== null && cartArray !== undefined) {
     getAllMovieDataFromCart().then((response) => {
       movieArray = response;
       renderCartItems();
+      const buttonElement = document.createElement("div");
       const clearCartBtn = document.createElement("button");
       clearCartBtn.innerText = "Clear Cart";
       clearCartBtn.addEventListener("click", clearCart);
-      movieList.appendChild(clearCartBtn);
+      buttonElement.appendChild(clearCartBtn);
+
+      if (userId) {
+        const placeOrderBtn = document.createElement("button");
+        placeOrderBtn.innerText = "Place Order";
+        placeOrderBtn.addEventListener("click", placeOrder)
+      }
+
+      movieList.appendChild(buttonElement);
     });
   } else {
     renderEmptyCart();
@@ -28,6 +37,15 @@ if (cartArray !== null && cartArray !== undefined) {
 } else {
   renderEmptyCart();
 }
+
+async function placeOrder() {
+  cartArray.forEach((movie) => {
+    const movieId = movie.split('-')[0]
+    const amount = movie.split('-')[1]
+    
+    
+  })
+} 
 
 function renderEmptyCart() {
   const emptyCartText = document.createElement("p");
@@ -48,7 +66,7 @@ async function renderPaymentDetails() {
   let user = await fetch(`/get-user/${userId}`)
   let dataList = await user.json()
   let data = dataList[0]
-  if (data.fullName) {
+  if (data) {
     let username = data.fullName;
     let creditCard = data.creditCard;
     let address = data.address;

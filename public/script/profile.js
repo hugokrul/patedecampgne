@@ -3,7 +3,7 @@ const userId = parseInt(localStorage.getItem("userId"));
 
 async function getUserOrderHistory() {
   let userId = parseInt(localStorage.getItem("userId"));
-  let response = await fetch(`/group5/get-user-order-history/${userId}`, {
+  let response = await fetch(`/get-user-order-history/${userId}`, {
     method: "POST",
   });
   let dataArray = await response.json();
@@ -44,6 +44,8 @@ async function renderProfileDetails() {
     profileDetailsElement.appendChild(emailElement);
     profileDetailsElement.appendChild(creditCardElement);
     profileDetailsElement.appendChild(addressElement);
+
+    getUserOrderHistory()
   } else {
     const loginLink = document.createElement('a');
     loginLink.innerText = 'Login';
@@ -52,8 +54,4 @@ async function renderProfileDetails() {
     profileDetailsElement.appendChild(loginLink)
   }
   
-}
-
-function loginSucces() {
-  localStorage.setItem("userId", result.userId);
 }
