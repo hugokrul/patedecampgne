@@ -1,4 +1,5 @@
 const profileDetailsElement = document.getElementById("profileDetails")
+const orderHistoryElement = document.getElementById("orderHistory")
 const userId = parseInt(localStorage.getItem("userId"));
 
 function logOut(){
@@ -21,7 +22,9 @@ async function getUserOrderHistory() {
     document.getElementsByTagName(body).appendChild(orderContainer);
   });
   if (message== "No history found"){
-    alert('No order history found')
+    let noHistoryElement= document.createElement('p');
+    noHistoryElement.innerText='No order history found';
+    orderHistoryElement.appendChild(noHistoryElement);
   }
 }
 
