@@ -32,7 +32,7 @@ async function renderProfileDetails() {
   let user = await fetch(`/get-user/${userId}`)
   let dataList = await user.json()
   let data = dataList[0]
-  if (data.fullName) {
+  if (data) {
     let username = data.fullName;
     let email = data.email;
     let creditCard = data.creditCard;
