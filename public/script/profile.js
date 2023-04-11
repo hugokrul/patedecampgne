@@ -15,18 +15,19 @@ async function getUserOrderHistory() {
   let dataArray = await response.json();
 
   console.log(dataArray);
-
-  dataArray.map((indOrder, index) => {
-    const orderContainer = document.createElement("div");
-    orderContainer.className = "orderContainer";
-
-    document.getElementsByTagName(body).appendChild(orderContainer);
-  });
-  if (message== "No history found"){
+if (message== "No history found"){
     let noHistoryElement= document.createElement('p');
     noHistoryElement.innerText='No order history found';
     orderHistoryElement.appendChild(noHistoryElement);
   }
+  
+  else {dataArray.map((indOrder, index) => {
+    const orderContainer = document.createElement("div");
+    orderContainer.className = "orderContainer";
+
+    document.getElementsByTagName(body).appendChild(orderContainer);}
+  )};
+  
 }
 
 async function renderProfileDetails() {
