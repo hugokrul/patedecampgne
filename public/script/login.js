@@ -21,9 +21,21 @@ loginForm.addEventListener("submit", (event) => {
     })
     .then((body) => {
       // TODO handle body
-      localStorage.setItem("userId", body[0].userId);
-      alert('You are logged in');
-      window.location.href = "/";
+      if (body.message) {
+        const deleteElements = document.getElementsByClassName('errorElement')
+        while (deleteElements.length > 0) {
+          deleteElements[0].parentNode.removeChild(deleteElements[0])
+        }
+        let errorElement = document.createElement('p')
+        errorElement.classList.add('errorElement')
+        errorElement.innerText = body.message
+        errorElement.style.color = "red"
+        document.body.appendChild(errorElement)
+      } else {
+        localStorage.setItem("userId", body[0].userId);
+        alert('You are logged in');
+        window.location.href = "/";
+      }
     })
     .catch((error) => {
       // TODO handle error

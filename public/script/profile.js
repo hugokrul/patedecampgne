@@ -3,7 +3,8 @@ const orderHistoryElement = document.getElementById("orderHistory")
 const userId = parseInt(localStorage.getItem("userId"));
 
 function logOut(){
-  localStorage.removeItem("userId")
+  localStorage.removeItem("userId");
+  location.reload()
 }
 
 async function getUserOrderHistory() {
@@ -42,7 +43,7 @@ async function renderProfileDetails() {
     usernameElement.innerText = `Hello, ${username}!`
 
     let emailElement = document.createElement('p');
-    emailElement.innerText = `Email: ${email}!`
+    emailElement.innerText = `Email: ${email}`
   
     let creditCardElement = document.createElement('p');
     creditCardElement.innerText = `Creditcard: ${creditCard}`;
@@ -55,12 +56,12 @@ async function renderProfileDetails() {
     profileDetailsElement.appendChild(creditCardElement);
     profileDetailsElement.appendChild(addressElement);
 
-    getUserOrderHistory()
+    // getUserOrderHistory()
     
     const logoutButton = document.createElement("button");
     logoutButton.innerText = 'Logout';
     logoutButton.className = 'button-68'
-    logoutButton.onclick = logOut();
+    logoutButton.addEventListener("click", logOut)
     logoutButton.setAttribute('href', '/');
 
     profileDetailsElement.appendChild(logoutButton)

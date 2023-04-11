@@ -126,7 +126,7 @@ app.post("/user-register/:credentials", async (req, res) => {
     if (result[0] === undefined) {
       db.all(
         "INSERT INTO users (email, password, password_iv, fullName, address, creditCard, creditCard_iv) VALUES (?,?,?,?,?,?,?)",
-        [email, password, "test", fullName, address, creditCard, 123],
+        [email, password, Math.floor(Math.random()*10000000).toString(), fullName, address, creditCard, Math.floor(Math.random()*10000000).toString()],
         (error, result2) => {
           if (error) {
             console.log(error);
