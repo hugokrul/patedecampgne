@@ -61,6 +61,8 @@ async function renderProfileDetails() {
     logoutLink.innerText = 'Logout';
     logoutLink.addEventListener(onclick, logOut())
     logoutLink.setAttribute('href', '/');
+
+    profileDetailsElement.appendChild(logoutLink)
   
   } else {
     const loginLink = document.createElement('a');
