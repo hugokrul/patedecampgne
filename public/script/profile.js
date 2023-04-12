@@ -15,19 +15,19 @@ async function getUserOrderHistory() {
   let dataArray = await response.json();
 
   console.log(dataArray);
-if (message== "No history found"){
+if (dataArray.message== "No history found"){
+    console.log("test");
     let noHistoryElement= document.createElement('p');
     noHistoryElement.innerText='No order history found';
     orderHistoryElement.appendChild(noHistoryElement);
-  }
   
-  else {dataArray.map((indOrder, index) => {
-    const orderContainer = document.createElement("div");
-    orderContainer.className = "orderContainer";
-
-    document.getElementsByTagName(body).appendChild(orderContainer);}
-  )};
-  
+  } else 
+      {dataArray.map(async (indOrder, index) => {
+        let data = await fetch(`/get-movie/${indOrder.movieId}`)
+        let movie = await data.json();
+        console.log(movie)
+   });
+}
 }
 
 async function renderProfileDetails() {
@@ -57,7 +57,7 @@ async function renderProfileDetails() {
     profileDetailsElement.appendChild(creditCardElement);
     profileDetailsElement.appendChild(addressElement);
 
-    // getUserOrderHistory()
+    getUserOrderHistory()
     
     const logoutButton = document.createElement("button");
     logoutButton.innerText = 'Logout';
