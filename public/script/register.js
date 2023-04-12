@@ -23,7 +23,7 @@ registerForm.addEventListener("submit", (event) => {
       }
       return response.json(); // or response.text() or whatever the server sends
     })
-    .then(() => {
+    .then((body) => {
       // TODO handle body
       if (body.message) {
         const deleteElements = document.getElementsByClassName('errorElement')
