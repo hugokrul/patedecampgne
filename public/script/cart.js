@@ -48,15 +48,16 @@ if (cartArray !== null && cartArray !== undefined) {
 }
 
 async function placeOrder() {
-  cartArray.forEach(async (movie) => {
+  cartArray.forEach(async (movie, index) => {
     const movieId = movie.split('-')[0]
     const amount = movie.split('-')[1]
+    const selectValue = (document.getElementById(`dateSelect${index}`)).value
 
     let mov = await fetch(`/get-movie/${movieId}`)
     mov = await mov.json()
     mov = mov[0]
     
-    await fetch(`/add-order-history/${userId}&${movieId}&${amount}&${mov.playingSpan}`, {method: "POST"});
+    await fetch(`/add-order-history/${userId}&${movieId}&${amount}&${selectValue}`, {method: "POST"});
   })
   alert('Order complete!')
   clearCart(false);
@@ -164,6 +165,25 @@ function renderCartItems() {
     const movieItemAmount = document.createElement("h4");
     movieItemAmount.className = "movieItemTitle";
     movieItemAmount.innerHTML = "Amount selected: ";
+
+
+    const dateH4 = document.createElement("h4");
+    dateH4.innerText = "Select date:"
+    const dateSelect = document.createElement("select");
+    dateSelect.setAttribute("id", `dateSelect${index}`)
+    let date = new Date(indMovie.playingSpan.split('_')[0]);
+    date = new Date(date.setDate(date.getDate()-1));
+    for (let i  = 0; i < 7; i++) {
+      const optionElement = document.createElement("option");
+      setDate = new Date(date.setDate(date.getDate()+1));
+      setDate = setDate.toLocaleDateString()
+      optionElement.setAttribute("value", setDate)
+      optionElement.innerText = setDate
+      dateSelect.appendChild(optionElement)
+    }
+
+
+
     const counterInput = document.createElement("input");
     counterInput.defaultValue = indMovie.amountInCart;
     counterInput.type = "number";
@@ -171,6 +191,8 @@ function renderCartItems() {
     counterInput.style.width = "50px";
     amountFlex.appendChild(movieItemAmount);
     amountFlex.appendChild(counterInput);
+    amountFlex.appendChild(dateH4);
+    amountFlex.appendChild(dateSelect)
 
     //movieAmount Change
 
