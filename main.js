@@ -73,11 +73,11 @@ app.post("/user-login/:credentials", async (req, res) => {
     } else {
       if (result.length > 0) {
         let user = result[0];
-        let decryptedPassword = user.password;
-        /*let decryptedPassword = decrypt({
+        // let decryptedPassword = user.password;
+        let decryptedPassword = decrypt({
           encryptedData: user.password,
           iv: user.password_iv,
-        });*/
+        });
         if (password === decryptedPassword) {
           res.send(result);
         } else {
@@ -107,26 +107,27 @@ app.post("/user-register/:credentials", async (req, res) => {
   let credentialsArray = credentials.split(",");
 
   const email = credentialsArray[0];
-  const password = credentialsArray[1];
+  //encript important data
+  const password = encrypt(credentialsArray[1]);
   const fullName = credentialsArray[2];
   const address = credentialsArray[3];
-  const creditCard = parseInt(credentialsArray[4]);
-  
-  // //userId: auto_increment
-  // const email = req.body.email;
-  // //const password = encrypt(req.body.password);
-  // const password = req.body.password;
-  // const fullName = req.body.fullName;
-  // const address = req.body.address;
-  // //const creditCard = encrypt(req.body.creditCard);
-  // const creditCard = req.body.creditCard;
+  //encript important data
+  const creditCard = encrypt(credentialsArray[4].toString());
   // //order history in different table
 
   db.all("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
     if (result[0] === undefined) {
       db.all(
         "INSERT INTO users (email, password, password_iv, fullName, address, creditCard, creditCard_iv) VALUES (?,?,?,?,?,?,?)",
-        [email, password, Math.floor(Math.random()*10000000).toString(), fullName, address, creditCard, Math.floor(Math.random()*10000000).toString()],
+        [
+          email,
+          password.encryptedData,
+          password.iv,
+          fullName,
+          address,
+          creditCard.encryptedData,
+          creditCard.iv,
+        ],
         (error, result2) => {
           if (error) {
             console.log(error);
@@ -147,62 +148,70 @@ app.post("/user-register/:credentials", async (req, res) => {
     }
   });
 });
-app.post("/get-user", (req, res) => {
-  const userId = req.body.userId;
-  db.all("SELECT * FROM users WHERE id = ?", [userId], (err, result) => {
+// app.post("/get-user", (req, res) => {
+//   const userId = req.body.userId;
+//   db.all("SELECT * FROM users WHERE id = ?", [userId], (err, result) => {
+//     if (err) {
+//       res.send({
+//         error: err,
+//       });
+//     }
+
+//     if (result.length > 0) {
+//       res.send(result);
+//     } else {
+//       res.send({
+//         message: "No accounts found",
+//       });
+//     }
+//   });
+// });
+
+app.get("/get-user/:id", (req, res) => {
+  const userId = req.params.id;
+  db.all("SELECT * FROM users where userId = ?", [userId], (err, result) => {
     if (err) {
-      res.send({
-        error: err,
-      });
+      res.send({ error: err });
     }
 
     if (result.length > 0) {
+      let decryptedCreditCard = decrypt({
+        encryptedData: result[0].creditCard,
+        iv: result[0].creditCard_iv,
+      });
+      result[0].creditCard = decryptedCreditCard;
       res.send(result);
     } else {
-      res.send({
-        message: "No accounts found",
-      });
+      res.send({ message: "no accounts found" });
     }
   });
 });
-
-app.get("/get-user/:id", (req, res) => {
-  const userId = req.params.id
-  db.all("SELECT * FROM users where userId = ?", [userId], (err, result) => {
-    if (err) {
-      res.send({error: err,})
-    }
-
-    if (result.length > 0) {
-      res.send(result)
-    } else {
-      res.send({message: "no accounts found"})
-    }
-  })
-})
-app.post("/add-order-history/:userId&:movieId&:amount&:dateTimeSlot", (req, res) => {
-  //orderId is auto_incremented
-  //order history based on UserId
-  const userId = req.params.userId;
-  const movieId = req.params.movieId;
-  const amount = req.params.amount;
-  const dateTimeSlot = req.params.dateTimeSlot;
-  //movieId is a seperate table
-  db.all(
-    "INSERT INTO orderHistory (userId, movieId, amount, dateTimeSlot) VALUES (?, ?,?,?)",
-    [userId, movieId, amount, dateTimeSlot],
-    (error, result) => {
-      if (error) {
-        console.log(error);
-        res.send({
-          message: err,
-        });
-      } else {
-        res.send(result);
+app.post(
+  "/add-order-history/:userId&:movieId&:amount&:dateTimeSlot",
+  (req, res) => {
+    //orderId is auto_incremented
+    //order history based on UserId
+    const userId = req.params.userId;
+    const movieId = req.params.movieId;
+    const amount = req.params.amount;
+    const dateTimeSlot = req.params.dateTimeSlot;
+    //movieId is a seperate table
+    db.all(
+      "INSERT INTO orderHistory (userId, movieId, amount, dateTimeSlot) VALUES (?, ?,?,?)",
+      [userId, movieId, amount, dateTimeSlot],
+      (error, result) => {
+        if (error) {
+          console.log(error);
+          res.send({
+            message: err,
+          });
+        } else {
+          res.send(result);
+        }
       }
-    }
-  );
-});
+    );
+  }
+);
 app.post("/get-user-order-history/:userId", (req, res) => {
   const userId = req.params.userId;
   db.all(
