@@ -1,5 +1,7 @@
 const profileDetailsElement = document.getElementById("profileDetails")
 const orderHistoryElement = document.getElementById("orderHistory")
+const orderHistoryInfoElement = document.getElementById("orderHistoryInfo")
+
 const userId = parseInt(localStorage.getItem("userId"));
 
 function logOut(){
@@ -22,13 +24,63 @@ if (dataArray.message== "No history found"){
     orderHistoryElement.appendChild(noHistoryElement);
   
   } else 
-      {dataArray.map(async (indOrder, index) => {
-        let data = await fetch(`/get-movie/${indOrder.movieId}`)
-        let movie = await data.json();
-        console.log(movie)
-   });
+        {dataArray.map(async (indOrder, index) => {
+          let data = await fetch(`/get-movie/${indOrder.movieId}`)
+          let movie = await data.json();
+          movie=movie[0];
+          data=data[0];
+    
+        const movieItem = document.createElement("div");
+        movieItem.className = "movieItem";
+        const movieItemFlex = document.createElement("div");
+        movieItemFlex.className = "flex movieItemFlex";
+        movieItem.appendChild(movieItemFlex);
+       
+        const movieImageContainer = document.createElement("div");
+        movieImageContainer.className = "movieImageContainer";
+        const movieImage = document.createElement("img");
+        movieImage.className = "movieImage";
+        const imageElementsrc = `./images/playing/${movie.title
+          .replace(/ /g, "-")
+          .replace(/:/g, "")
+          .replace(".", "")}.jpg`;
+        movieImage.src = imageElementsrc;
+        movieImageContainer.appendChild(movieImage);
+        movieItemFlex.appendChild(movieImageContainer);
+       
+        const movieItemTitle = document.createElement("h3");
+        movieItemTitle.className = "movieItemTitle";
+        movieItemTitle.innerHTML = movie.title;
+
+        const movieInfo = document.createElement("section");
+
+        const movieItemAmount = document.createElement("p");
+        movieItemAmount.className = "movieItemInfo";
+        movieItemAmount.innerHTML = `Amount ordered: ${indOrder.amount}`;
+
+        const movieItemLocation = document.createElement("p");
+        movieItemLocation.className = "movieItemInfo";
+        movieItemLocation.innerHTML = `Location: ${indOrder.location}`;
+
+        const movieItemTime = document.createElement("p");
+        movieItemTime.className = "movieItemInfo";
+        movieItemTime.innerHTML = `Time: ${indOrder.time}`;
+
+        const orderId = document.createElement("p");
+        orderId.className = "movieItemInfo";
+        orderId.innerHTML = `OrderId: #${indOrder.orderId}`;
+
+        movieInfo.appendChild(movieItemTitle);
+        movieInfo.appendChild(orderId);
+        movieInfo.appendChild(movieItemTime);
+        movieInfo.appendChild(movieItemLocation);
+        movieInfo.appendChild(movieItemAmount);
+
+        movieItemFlex.appendChild(movieInfo);
+        orderHistoryElement.appendChild(movieItem);
+   })};
 }
-}
+
 
 async function renderProfileDetails() {
   let user = await fetch(`/get-user/${userId}`)
@@ -74,5 +126,4 @@ async function renderProfileDetails() {
 
     profileDetailsElement.appendChild(loginLink)
   }
-  
 }

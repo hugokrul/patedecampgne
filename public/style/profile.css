@@ -1,0 +1,38 @@
+body {
+    color: rgb(0, 0, 0);
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  #movieList {
+    margin-top: 20px;
+  }
+  
+  #profileDetails {
+    margin-top: 20px;
+  }
+  
+  .movieImage {
+    height: 200px;
+    border-radius: 10px;
+  }
+  
+  .movieItem {
+    margin-top: 20px;
+  }
+  
+  .movieItemDescription {
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    max-height: 150px;
+    display: block;
+  }
+  
+  .movieItemFlex {
+    gap: 25px !important;
+  }
+  .movieItemTitle{
+    position:relative;
+  }
+  
