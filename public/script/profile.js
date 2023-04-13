@@ -60,11 +60,11 @@ if (dataArray.message== "No history found"){
 
         const movieItemLocation = document.createElement("p");
         movieItemLocation.className = "movieItemInfo";
-        movieItemLocation.innerHTML = `Location: ${indOrder.location}`;
+        movieItemLocation.innerHTML = `Location: ${movie.location}`;
 
         const movieItemTime = document.createElement("p");
         movieItemTime.className = "movieItemInfo";
-        movieItemTime.innerHTML = `Time: ${indOrder.time}`;
+        movieItemTime.innerHTML = `Date and time: ${indOrder.dateTimeSlot}`;
 
         const orderId = document.createElement("p");
         orderId.className = "movieItemInfo";
