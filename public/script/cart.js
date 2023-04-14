@@ -1,5 +1,5 @@
 const movieList = document.getElementById("movieList");
-const paymentDetailsElement = document.getElementById("paymentDetails")
+const paymentDetailsElement = document.getElementById("paymentDetails");
 
 const userId = parseInt(localStorage.getItem("userId"));
 
@@ -20,22 +20,22 @@ if (cartArray !== null && cartArray !== undefined) {
       const buttonElement = document.createElement("div");
       const clearCartBtn = document.createElement("button");
       clearCartBtn.innerText = "Clear Cart";
-      clearCartBtn.classList.add("button-68")
+      clearCartBtn.classList.add("button-68");
       clearCartBtn.addEventListener("click", clearCart);
       buttonElement.appendChild(clearCartBtn);
       buttonElement.style.display = "flex";
-      buttonElement.style.justifyContent = "space-between"
+      buttonElement.style.justifyContent = "space-between";
 
       if (userId) {
         const placeOrderBtn = document.createElement("button");
         placeOrderBtn.innerText = "Place Order";
-        placeOrderBtn.classList.add("button-68")
-        placeOrderBtn.addEventListener("click", placeOrder)
-        buttonElement.appendChild(placeOrderBtn)
+        placeOrderBtn.classList.add("button-68");
+        placeOrderBtn.addEventListener("click", placeOrder);
+        buttonElement.appendChild(placeOrderBtn);
       } else {
         const messageElement = document.createElement('p');
-        messageElement.innerText = "You first need to login!"
-        buttonElement.appendChild(messageElement)
+        messageElement.innerText = "You first need to login!";
+        buttonElement.appendChild(messageElement);
       }
 
       movieList.appendChild(buttonElement);
@@ -49,17 +49,17 @@ if (cartArray !== null && cartArray !== undefined) {
 
 async function placeOrder() {
   cartArray.forEach(async (movie, index) => {
-    const movieId = movie.split('-')[0]
-    const amount = movie.split('-')[1]
-    const selectValue = (document.getElementById(`dateSelect${index}`)).value
+    const movieId = movie.split('-')[0];
+    const amount = movie.split('-')[1];
+    const selectValue = (document.getElementById(`dateSelect${index}`)).value;
 
-    let mov = await fetch(`/get-movie/${movieId}`)
-    mov = await mov.json()
-    mov = mov[0]
+    let mov = await fetch(`/get-movie/${movieId}`);
+    mov = await mov.json();
+    mov = mov[0];
     
     await fetch(`/add-order-history/${userId}&${movieId}&${amount}&${selectValue}`, {method: "POST"});
-  })
-  alert('Order complete!')
+  });
+  alert('Order complete!');
   clearCart(false);
 } 
 
@@ -79,16 +79,16 @@ function renderEmptyCart() {
 }
 
 async function renderPaymentDetails() {
-  let user = await fetch(`/get-user/${userId}`)
-  let dataList = await user.json()
-  let data = dataList[0]
+  let user = await fetch(`/get-user/${userId}`);
+  let dataList = await user.json();
+  let data = dataList[0];
   if (data) {
     let username = data.fullName;
     let creditCard = data.creditCard;
     let address = data.address;
   
     let usernameElement = document.createElement('p');
-    usernameElement.innerText = `Hello, ${username}!`
+    usernameElement.innerText = `Hello, ${username}!`;
   
     let creditCardElement = document.createElement('p');
     creditCardElement.innerText = `Creditcard: ${creditCard}`;
@@ -104,7 +104,7 @@ async function renderPaymentDetails() {
     loginLink.innerText = 'Login';
     loginLink.setAttribute('href', '/login');
 
-    paymentDetailsElement.appendChild(loginLink)
+    paymentDetailsElement.appendChild(loginLink);
   }
   
 }
@@ -168,18 +168,18 @@ function renderCartItems() {
 
 
     const dateH4 = document.createElement("h4");
-    dateH4.innerText = "Select date:"
+    dateH4.innerText = "Select date:";
     const dateSelect = document.createElement("select");
-    dateSelect.setAttribute("id", `dateSelect${index}`)
+    dateSelect.setAttribute("id", `dateSelect${index}`);
     let date = new Date(indMovie.playingSpan.split('_')[0]);
     date = new Date(date.setDate(date.getDate()-1));
     for (let i  = 0; i < 7; i++) {
       const optionElement = document.createElement("option");
       setDate = new Date(date.setDate(date.getDate()+1));
-      setDate = setDate.toLocaleDateString()
-      optionElement.setAttribute("value", setDate)
-      optionElement.innerText = setDate
-      dateSelect.appendChild(optionElement)
+      setDate = setDate.toLocaleDateString();
+      optionElement.setAttribute("value", setDate);
+      optionElement.innerText = setDate;
+      dateSelect.appendChild(optionElement);
     }
 
 
@@ -192,7 +192,7 @@ function renderCartItems() {
     amountFlex.appendChild(movieItemAmount);
     amountFlex.appendChild(counterInput);
     amountFlex.appendChild(dateH4);
-    amountFlex.appendChild(dateSelect)
+    amountFlex.appendChild(dateSelect);
 
     //movieAmount Change
 
@@ -242,10 +242,10 @@ function clearCart(withAlert=true) {
   if(withAlert) {
     if (confirm("Are you sure you want to delete your entire cart?")) {
       localStorage.removeItem("moviesInCartIds");
-      location.reload()
+      location.reload();
     }
   } else {
     localStorage.removeItem("moviesInCartIds");
-    location.reload()
+    location.reload();
   }
 }

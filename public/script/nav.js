@@ -1,14 +1,15 @@
-const userID = localStorage.getItem('userId')
+const userID = localStorage.getItem('userId');
 const loginRegisterElement = document.getElementById('loginRegister');
+const mobileElement = document.getElementById('mobile');
 
 async function getUserData() {
-    let u = await fetch(`/get-user/${userID}`)
+    let u = await fetch(`/get-user/${userID}`);
     let d = await u.json();
-    Continue(d[0])
+    Continue(d[0]);
 }
 
 window.addEventListener("load", () => {
-    getUserData()
+    getUserData();
 })
 
 function Continue(data) {
@@ -16,10 +17,11 @@ function Continue(data) {
         let listElement = document.createElement('li');
         let listElementA = document.createElement('a');
         listElementA.innerText = `HALLO, ${data.fullName.toUpperCase()}`;
-        listElementA.setAttribute('href', '/profile')
+        listElementA.setAttribute('href', './profile');
         listElement.appendChild(listElementA);
-
-        loginRegisterElement.appendChild(listElement)
+        
+        loginRegisterElement.appendChild(listElement);
+        mobileElement.appendChild(listElement);
     } else {
         let listElementRegister = document.createElement('li');
         let registerElement = document.createElement('a');
@@ -37,5 +39,11 @@ function Continue(data) {
 
         loginRegisterElement.appendChild(listElementLogin);
         loginRegisterElement.appendChild(listElementRegister);
+        mobileElement.appendChild(listElementLogin);
+        mobileElement.appendChild(listElementRegister);
     }
 }
+
+function toggleMobileMenu(menu) {
+    menu.classList.toggle('open');
+};

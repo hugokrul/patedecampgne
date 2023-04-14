@@ -86,6 +86,8 @@ nav ul li a:hover {
     left: 0;
     height: calc(100vh - 50px);
     width: 100%;
+    padding: 0;
+    z-index: 1;
 }
 
 .mobile-menu li {

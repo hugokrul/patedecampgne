@@ -1,12 +1,12 @@
-const profileDetailsElement = document.getElementById("profileDetails")
-const orderHistoryElement = document.getElementById("orderHistory")
-const orderHistoryInfoElement = document.getElementById("orderHistoryInfo")
+const profileDetailsElement = document.getElementById("profileDetails");
+const orderHistoryElement = document.getElementById("orderHistory");
+const orderHistoryInfoElement = document.getElementById("orderHistoryInfo");
 
 const userId = parseInt(localStorage.getItem("userId"));
 
 function logOut(){
   localStorage.removeItem("userId");
-  location.reload()
+  location.reload();
 }
 
 async function getUserOrderHistory() {
@@ -25,7 +25,7 @@ if (dataArray.message== "No history found"){
   
   } else 
         {dataArray.map(async (indOrder, index) => {
-          let data = await fetch(`/get-movie/${indOrder.movieId}`)
+          let data = await fetch(`/get-movie/${indOrder.movieId}`);
           let movie = await data.json();
           movie=movie[0];
           data=data[0];
@@ -83,9 +83,9 @@ if (dataArray.message== "No history found"){
 
 
 async function renderProfileDetails() {
-  let user = await fetch(`/get-user/${userId}`)
-  let dataList = await user.json()
-  let data = dataList[0]
+  let user = await fetch(`/get-user/${userId}`);
+  let dataList = await user.json();
+  let data = dataList[0];
   if (data) {
     let username = data.fullName;
     let email = data.email;
@@ -93,10 +93,10 @@ async function renderProfileDetails() {
     let address = data.address;
   
     let usernameElement = document.createElement('p');
-    usernameElement.innerText = `Hello, ${username}!`
+    usernameElement.innerText = `Hello, ${username}!`;
 
     let emailElement = document.createElement('p');
-    emailElement.innerText = `Email: ${email}`
+    emailElement.innerText = `Email: ${email}`;
   
     let creditCardElement = document.createElement('p');
     creditCardElement.innerText = `Creditcard: ${creditCard}`;
@@ -109,21 +109,20 @@ async function renderProfileDetails() {
     profileDetailsElement.appendChild(creditCardElement);
     profileDetailsElement.appendChild(addressElement);
 
-    getUserOrderHistory()
-    
     const logoutButton = document.createElement("button");
     logoutButton.innerText = 'Logout';
     logoutButton.className = 'button-68'
     logoutButton.addEventListener("click", logOut)
     logoutButton.setAttribute('href', '/');
-
+    
     profileDetailsElement.appendChild(logoutButton)
-  
+    
+    getUserOrderHistory();
   } else {
     const loginLink = document.createElement('a');
     loginLink.innerText = 'Login';
     loginLink.setAttribute('href', '/login');
 
-    profileDetailsElement.appendChild(loginLink)
+    profileDetailsElement.appendChild(loginLink);
   }
 }

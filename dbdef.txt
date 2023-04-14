@@ -1,0 +1,4 @@
+CREATE TABLE actor (
+    actorId PRIMARY KEY AUTOINCREMENT,
+    movieId
+)

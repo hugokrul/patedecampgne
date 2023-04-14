@@ -81,7 +81,7 @@ function fillPage(data, actors) {
   playingSpan.innerText = text;
 
   const location = document.createElement('p');
-  location.innerText = `Playing in: ${data.location}`
+  location.innerText = `Playing in: ${data.location}`;
 
   const PlotH1 = document.createElement("h1");
   PlotH1.innerText = "Plot:";
