@@ -168,7 +168,7 @@ function search() {
     movieItemFlex.appendChild(movieItemTextContent);
 
     movieItemFlex.addEventListener('click', () => {
-      location.href = `/group5/movies/${indMovie.movieId}`
+      location.href = `/movies/${indMovie.movieId}`
     })
     
     movieList.appendChild(movieItem);
