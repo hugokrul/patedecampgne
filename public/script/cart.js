@@ -53,11 +53,11 @@ async function placeOrder() {
     const amount = movie.split('-')[1];
     const selectValue = (document.getElementById(`dateSelect${index}`)).value;
 
-    let mov = await fetch(`./get-movie/${movieId}`);
+    let mov = await fetch(`/group5/get-movie/${movieId}`);
     mov = await mov.json();
     mov = mov[0];
     
-    await fetch(`./add-order-history/${userId}&${movieId}&${amount}&${selectValue}`, {method: "POST"});
+    await fetch(`/group5/add-order-history/${userId}&${movieId}&${amount}&${selectValue}`, {method: "POST"});
   });
   alert('Order complete!');
   clearCart(false);
@@ -71,7 +71,7 @@ function renderEmptyCart() {
   const exploreMoviesBtn = document.createElement("button");
   exploreMoviesBtn.innerText = "Explore Movies";
   exploreMoviesBtn.addEventListener("click", function () {
-    window.location.href = "./";
+    window.location.href = "/group5/";
   });
 
   movieList.appendChild(emptyCartText);
@@ -79,7 +79,7 @@ function renderEmptyCart() {
 }
 
 async function renderPaymentDetails() {
-  let user = await fetch(`./get-user/${userId}`);
+  let user = await fetch(`/group5/get-user/${userId}`);
   let dataList = await user.json();
   let data = dataList[0];
   if (data) {
@@ -102,7 +102,7 @@ async function renderPaymentDetails() {
   } else {
     const loginLink = document.createElement('a');
     loginLink.innerText = 'Login';
-    loginLink.setAttribute('href', './login');
+    loginLink.setAttribute('href', '/group5/login');
 
     paymentDetailsElement.appendChild(loginLink);
   }
@@ -125,7 +125,7 @@ function getAllMovieDataFromCart() {
 }
 
 async function getMovieData(movieId, amount = 1) {
-  let response = await fetch(`./get-movie/${movieId}`);
+  let response = await fetch(`/group5/get-movie/${movieId}`);
   let data = await response.json();
   data = data[0];
   data.amountInCart = parseInt(amount);

@@ -13,7 +13,7 @@ registerForm.addEventListener("submit", (event) => {
   let credentials = email + "," + password + "," + fullname + "," + address + "," + creditcard;
 
   // TODO do something here to show user that form is being submitted
-  fetch(`./user-register/${credentials}`, {
+  fetch(`/group5/user-register/${credentials}`, {
     method: "POST",
     //new URLSearchParams(new FormData(event.target)), // event.target is the form
   })
@@ -37,7 +37,7 @@ registerForm.addEventListener("submit", (event) => {
         document.body.appendChild(errorElement);
       } else {
         loginUser(email, password);
-        window.location.href = "./";
+        window.location.href = "/group5/";
       }
     })
     .catch((error) => {
@@ -48,7 +48,7 @@ registerForm.addEventListener("submit", (event) => {
 
 async function loginUser(email, password) {
   let credentials = email + "," + password;
-  fetch(`/user-login/${credentials}`, {
+  fetch(`/group5/user-login/${credentials}`, {
     method: "POST",
     //new URLSearchParams(new FormData(event.target)), // event.target is the form
   })
@@ -62,7 +62,7 @@ async function loginUser(email, password) {
       // TODO handle body
       localStorage.setItem("userId", body[0].userId);
       alert('You are logged in');
-      window.location.href = "/";
+      window.location.href = "/group5/";
     })
     .catch((error) => {
       // TODO handle error

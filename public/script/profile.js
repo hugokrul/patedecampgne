@@ -11,7 +11,7 @@ function logOut(){
 
 async function getUserOrderHistory() {
   let userId = parseInt(localStorage.getItem("userId"));
-  let response = await fetch(`./get-user-order-history/${userId}`, {
+  let response = await fetch(`/group5/get-user-order-history/${userId}`, {
     method: "POST",
   });
   let dataArray = await response.json();
@@ -25,7 +25,7 @@ if (dataArray.message== "No history found"){
   
   } else 
         {dataArray.map(async (indOrder, index) => {
-          let data = await fetch(`./get-movie/${indOrder.movieId}`);
+          let data = await fetch(`/group5/get-movie/${indOrder.movieId}`);
           let movie = await data.json();
           movie=movie[0];
           data=data[0];
@@ -83,7 +83,7 @@ if (dataArray.message== "No history found"){
 
 
 async function renderProfileDetails() {
-  let user = await fetch(`./get-user/${userId}`);
+  let user = await fetch(`/group5/get-user/${userId}`);
   let dataList = await user.json();
   let data = dataList[0];
   if (data) {
@@ -113,7 +113,7 @@ async function renderProfileDetails() {
     logoutButton.innerText = 'Logout';
     logoutButton.className = 'button-68'
     logoutButton.addEventListener("click", logOut)
-    logoutButton.setAttribute('href', './');
+    logoutButton.setAttribute('href', '/group5/');
     
     profileDetailsElement.appendChild(logoutButton)
     
@@ -121,7 +121,7 @@ async function renderProfileDetails() {
   } else {
     const loginLink = document.createElement('a');
     loginLink.innerText = 'Login';
-    loginLink.setAttribute('href', './login');
+    loginLink.setAttribute('href', '/group5/login');
 
     profileDetailsElement.appendChild(loginLink);
   }

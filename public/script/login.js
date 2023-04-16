@@ -9,7 +9,7 @@ loginForm.addEventListener("submit", (event) => {
   let credentials = email + "," + password;
 
   // TODO do something here to show user that form is being submitted
-  fetch(`./user-login/${credentials}`, {
+  fetch(`/group5/user-login/${credentials}`, {
     method: "POST",
     //new URLSearchParams(new FormData(event.target)), // event.target is the form
   })
@@ -34,7 +34,7 @@ loginForm.addEventListener("submit", (event) => {
       } else {
         localStorage.setItem("userId", body[0].userId);
         alert('You are logged in');
-        window.location.href = "./";
+        window.location.href = "/group5/";
       }
     })
     .catch((error) => {

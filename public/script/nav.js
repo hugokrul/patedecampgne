@@ -3,7 +3,7 @@ const loginRegisterElement = document.getElementById('loginRegister');
 const mobileElement = document.getElementById('mobile');
 
 async function getUserData() {
-    let u = await fetch(`./get-user/${userID}`);
+    let u = await fetch(`/group5/get-user/${userID}`);
     let d = await u.json();
     Continue(d[0]);
 }
@@ -17,7 +17,7 @@ function Continue(data) {
         let listElement = document.createElement('li');
         let listElementA = document.createElement('a');
         listElementA.innerText = `HALLO, ${data.fullName.toUpperCase()}`;
-        listElementA.setAttribute('href', './profile');
+        listElementA.setAttribute('href', '/group5/profile');
         listElement.appendChild(listElementA);
         
         loginRegisterElement.appendChild(listElement);
@@ -29,10 +29,10 @@ function Continue(data) {
         let loginElement = document.createElement('a');
 
         registerElement.innerText = 'REGISTER';
-        registerElement.setAttribute('href', './register');
+        registerElement.setAttribute('href', '/group5/register');
 
         loginElement.innerText = 'LOGIN';
-        loginElement.setAttribute('href', './login');
+        loginElement.setAttribute('href', '/group5/login');
 
         listElementRegister.appendChild(registerElement);
         listElementLogin.appendChild(loginElement);
