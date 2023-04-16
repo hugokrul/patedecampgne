@@ -167,7 +167,10 @@ function search() {
 
     movieItemFlex.appendChild(movieItemTextContent);
 
-    console.log(movieItem);
+    movieItemFlex.addEventListener('click', () => {
+      location.href = `/group5/movies/${indMovie.movieId}`
+    })
+    
     movieList.appendChild(movieItem);
   });
 
