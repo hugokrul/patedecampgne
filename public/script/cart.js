@@ -173,7 +173,7 @@ function renderCartItems() {
     dateSelect.setAttribute("id", `dateSelect${index}`);
     let date = new Date(indMovie.playingSpan.split('_')[0]);
     date = new Date(date.setDate(date.getDate()-1));
-    for (let i  = 0; i < 15; i++) {
+    for (let i  = 0; i < 14; i++) {
       const optionElement = document.createElement("option");
       setDate = new Date(date.setDate(date.getDate()+1));
       setDate = setDate.toLocaleDateString();
