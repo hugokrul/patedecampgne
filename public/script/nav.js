@@ -3,7 +3,7 @@ const loginRegisterElement = document.getElementById('loginRegister');
 const mobileElement = document.getElementById('mobile');
 
 async function getUserData() {
-    let u = await fetch(`/get-user/${userID}`);
+    let u = await fetch(`./get-user/${userID}`);
     let d = await u.json();
     Continue(d[0]);
 }
@@ -29,10 +29,10 @@ function Continue(data) {
         let loginElement = document.createElement('a');
 
         registerElement.innerText = 'REGISTER';
-        registerElement.setAttribute('href', '/register');
+        registerElement.setAttribute('href', './register');
 
         loginElement.innerText = 'LOGIN';
-        loginElement.setAttribute('href', '/login');
+        loginElement.setAttribute('href', './login');
 
         listElementRegister.appendChild(registerElement);
         listElementLogin.appendChild(loginElement);

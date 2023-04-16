@@ -13,7 +13,7 @@ registerForm.addEventListener("submit", (event) => {
   let credentials = email + "," + password + "," + fullname + "," + address + "," + creditcard;
 
   // TODO do something here to show user that form is being submitted
-  fetch(`/user-register/${credentials}`, {
+  fetch(`./user-register/${credentials}`, {
     method: "POST",
     //new URLSearchParams(new FormData(event.target)), // event.target is the form
   })
@@ -37,7 +37,7 @@ registerForm.addEventListener("submit", (event) => {
         document.body.appendChild(errorElement);
       } else {
         loginUser(email, password);
-        window.location.href = "/";
+        window.location.href = "./";
       }
     })
     .catch((error) => {
