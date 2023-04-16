@@ -25,7 +25,7 @@ function Continue(data) {
         let listElementMobile = document.createElement('li');
         let listElementAMobile = document.createElement('a');
         listElementAMobile.innerText = `HALLO, ${data.fullName.toUpperCase()}`;
-        listElementAMobile.setAttribute('href', '/profile');
+        listElementAMobile.setAttribute('href', '/group5/profile');
         listElementMobile.appendChild(listElementAMobile);
 
         mobileElement.appendChild(listElementMobile);
@@ -53,10 +53,10 @@ function Continue(data) {
         let loginElementMobile = document.createElement('a');
 
         registerElementMobile.innerText = 'REGISTER';
-        registerElementMobile.setAttribute('href', '/register');
+        registerElementMobile.setAttribute('href', '/group5/register');
 
         loginElementMobile.innerText = 'LOGIN';
-        loginElementMobile.setAttribute('href', '/login');
+        loginElementMobile.setAttribute('href', '/group5/login');
 
         listElementRegisterMobile.appendChild(registerElementMobile);
         listElementLoginMobile.appendChild(loginElementMobile);
