@@ -14,14 +14,23 @@
       <nav>
         <ul>
           <div class="left">
-            <li><a href="/">HOME</a></li>
-            <li><a class="active" href="/cart">CART</a></li>
+            <li><a href="./">HOME</a></li>
+            <li><a class="active" href="./cart">CART</a></li>
           </div>
           <div id="loginRegister" class="right">
             <li></li>
           </div>
         </ul>
       </nav>
+      <div id="hamburger-icon" onclick="toggleMobileMenu(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+        <ul id="mobile" class="mobile-menu">
+          <li><a href="./">HOME</a></li>
+          <li><a href="./cart">CART</a></li>
+        </ul>
+      </div>
     </header>
     <section>
       <div class="column11">
@@ -33,6 +42,7 @@
 
         <div>
           <h3>Your Items</h3>
+          <p>All movies play at 20:00</p>
           <div id="movieList"></div>
         </div>
       </div>

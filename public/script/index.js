@@ -17,7 +17,7 @@ function checkCurrentDateBetweenDates(date1, date2) {
 }
 
 async function getMovies() {
-  let response = await fetch("/get-all-movies");
+  let response = await fetch("/group5/get-all-movies");
   let data = await response.json();
   for (let i = 0; i < data.length; i++) {
     let dates = data[i].playingSpan.split("_");

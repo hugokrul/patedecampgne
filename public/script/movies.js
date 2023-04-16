@@ -1,14 +1,14 @@
 const mainArticle = document.getElementById("main");
 
 async function getActorsOfMovie(movieId) {
-  let response = await fetch(`/all-actors-of-movie/${movieId}`);
+  let response = await fetch(`/group5/all-actors-of-movie/${movieId}`);
   let data = await response.json();
   return data;
 }
 
 async function getMovieWithId() {
   const movieId = location.pathname.split("/").slice(-1)[0];
-  let response = await fetch(`/get-movie/${movieId}`);
+  let response = await fetch(`/group5/get-movie/${movieId}`);
   let data = await response.json();
   let actors = await getActorsOfMovie(movieId);
   fillPage(data[0], actors);
@@ -81,7 +81,7 @@ function fillPage(data, actors) {
   playingSpan.innerText = text;
 
   const location = document.createElement('p');
-  location.innerText = `Playing in: ${data.location}`
+  location.innerText = `Playing in: ${data.location}`;
 
   const PlotH1 = document.createElement("h1");
   PlotH1.innerText = "Plot:";
@@ -134,14 +134,14 @@ function fillPage(data, actors) {
         data.movieId + "-" + document.getElementById("orderCounterInput").value
       );
       localStorage.setItem("moviesInCartIds", currentCartListArr.toString(","));
-      window.location.href = "/cart";
+      window.location.href = "/group5/cart";
     } else {
       currentCartList =
         data.movieId.toString() +
         "-" +
         document.getElementById("orderCounterInput", currentCartList).value;
       localStorage.setItem("moviesInCartIds", currentCartList);
-      window.location.href = "/cart";
+      window.location.href = "/group5/cart";
     }
   });
 
