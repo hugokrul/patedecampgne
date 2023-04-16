@@ -1,5 +1,5 @@
 const movieList = document.getElementById("movieList");
-const paymentDetailsElement = document.getElementById("paymentDetails")
+const paymentDetailsElement = document.getElementById("paymentDetails");
 
 const userId = parseInt(localStorage.getItem("userId"));
 
@@ -20,22 +20,21 @@ if (cartArray !== null && cartArray !== undefined) {
       const buttonElement = document.createElement("div");
       const clearCartBtn = document.createElement("button");
       clearCartBtn.innerText = "Clear Cart";
-      clearCartBtn.classList.add("button-68")
+      clearCartBtn.classList.add("button-68");
       clearCartBtn.addEventListener("click", clearCart);
       buttonElement.appendChild(clearCartBtn);
-      buttonElement.style.display = "flex";
-      buttonElement.style.justifyContent = "space-between"
+      buttonElement.classList.add("orderBtns");
 
       if (userId) {
         const placeOrderBtn = document.createElement("button");
         placeOrderBtn.innerText = "Place Order";
-        placeOrderBtn.classList.add("button-68")
-        placeOrderBtn.addEventListener("click", placeOrder)
-        buttonElement.appendChild(placeOrderBtn)
+        placeOrderBtn.classList.add("button-68");
+        placeOrderBtn.addEventListener("click", placeOrder);
+        buttonElement.appendChild(placeOrderBtn);
       } else {
-        const messageElement = document.createElement('p');
-        messageElement.innerText = "You first need to login!"
-        buttonElement.appendChild(messageElement)
+        const messageElement = document.createElement("p");
+        messageElement.innerText = "You first need to login!";
+        buttonElement.appendChild(messageElement);
       }
 
       movieList.appendChild(buttonElement);
@@ -49,18 +48,21 @@ if (cartArray !== null && cartArray !== undefined) {
 
 async function placeOrder() {
   cartArray.forEach(async (movie) => {
-    const movieId = movie.split('-')[0]
-    const amount = movie.split('-')[1]
+    const movieId = movie.split("-")[0];
+    const amount = movie.split("-")[1];
 
-    let mov = await fetch(`/get-movie/${movieId}`)
-    mov = await mov.json()
-    mov = mov[0]
-    
-    await fetch(`/add-order-history/${userId}&${movieId}&${amount}&${mov.playingSpan}`, {method: "POST"});
-  })
-  alert('Order complete!')
+    let mov = await fetch(`/get-movie/${movieId}`);
+    mov = await mov.json();
+    mov = mov[0];
+
+    await fetch(
+      `/add-order-history/${userId}&${movieId}&${amount}&${mov.playingSpan}`,
+      { method: "POST" }
+    );
+  });
+  alert("Order complete!");
   clearCart(false);
-} 
+}
 
 function renderEmptyCart() {
   const emptyCartText = document.createElement("p");
@@ -78,34 +80,33 @@ function renderEmptyCart() {
 }
 
 async function renderPaymentDetails() {
-  let user = await fetch(`/get-user/${userId}`)
-  let dataList = await user.json()
-  let data = dataList[0]
+  let user = await fetch(`/get-user/${userId}`);
+  let dataList = await user.json();
+  let data = dataList[0];
   if (data) {
     let username = data.fullName;
     let creditCard = data.creditCard;
     let address = data.address;
-  
-    let usernameElement = document.createElement('p');
-    usernameElement.innerText = `Hello, ${username}!`
-  
-    let creditCardElement = document.createElement('p');
+
+    let usernameElement = document.createElement("p");
+    usernameElement.innerText = `Hello, ${username}!`;
+
+    let creditCardElement = document.createElement("p");
     creditCardElement.innerText = `Creditcard: ${creditCard}`;
-  
-    let addressElement = document.createElement('p');
+
+    let addressElement = document.createElement("p");
     addressElement.innerText = `Address: ${address}`;
-  
+
     paymentDetailsElement.appendChild(usernameElement);
     paymentDetailsElement.appendChild(creditCardElement);
     paymentDetailsElement.appendChild(addressElement);
   } else {
-    const loginLink = document.createElement('a');
-    loginLink.innerText = 'Login';
-    loginLink.setAttribute('href', '/login');
+    const loginLink = document.createElement("a");
+    loginLink.innerText = "Login";
+    loginLink.setAttribute("href", "/login");
 
-    paymentDetailsElement.appendChild(loginLink)
+    paymentDetailsElement.appendChild(loginLink);
   }
-  
 }
 
 function getAllMovieDataFromCart() {
@@ -216,14 +217,14 @@ function renderCartItems() {
   });
 }
 
-function clearCart(withAlert=true) {
-  if(withAlert) {
+function clearCart(withAlert = true) {
+  if (withAlert) {
     if (confirm("Are you sure you want to delete your entire cart?")) {
       localStorage.removeItem("moviesInCartIds");
-      location.reload()
+      location.reload();
     }
   } else {
     localStorage.removeItem("moviesInCartIds");
-    location.reload()
+    location.reload();
   }
 }
