@@ -1,4 +1,46 @@
 CREATE TABLE actor (
-    actorId PRIMARY KEY AUTOINCREMENT,
-    movieId
+    actorId INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL;
+);
+
+CREATE TABLE actorInMovie (
+    actorId INTEGER NOT NULL,
+    movieId INTEGER NOT NULL,
+    CONSTRAINT actorInMovie_fk_actor FOREIGN KEY (actorId)
+        REFERENCES actor(actorId),
+    CONSTRAINT actorInMovie_fk_movie FOREIGN KEY (movieId)
+        REFERENCES movies(movieId);
+);
+
+CREATE TABLE movies (
+    movieId INTEGER PRIMARY KEY AUTOINCREMENT,
+    location TEXT NOT NULL,
+    title TEXT NOT NULL,
+    movieLength INTEGER NOT NULL,
+    director TEXT NOT NULL,
+    playingSpan TEXT NOT NULL,
+    plot TEXT NOT NULL,
+);
+
+CREATE TABLE orderHistory (
+    orderId INTEGER PRIMARY KEY AUTOINCREMENT,
+    userId INTEGER NOT NULL,
+    movieId INTEGER NOT NULL,
+    amount INTEGER NOT NULL,
+    dateTimeSlot TEXT NOT NULL,
+    CONSTRAINT order_fk_user FOREIGN KEY (userId)
+        REFERENCES users(userId),
+    CONSTRAINT order_fk_movie FOREIGN KEY (movieId)
+        REFERENCES movies(movieId);
 )
+
+CREATE TABLE users (
+    userId INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL,
+    password TEXT NOT NULL,
+    password_iv TEXT NOT NULL,
+    fullName TEXT NOT NULL,
+    address TEXT NOT NULL,
+    creditCard TEXT NOT NULL,
+    creditCard_iv TEXT NOT NULL;
+);
