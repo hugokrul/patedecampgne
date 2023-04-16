@@ -32,3 +32,19 @@ body {
 .movieItemFlex {
   gap: 25px !important;
 }
+.orderBtns {
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 800px) {
+  .movieItemFlex {
+    flex-direction: column;
+  }
+  .movieItemTextContent .flex {
+    align-items: flex-start;
+  }
+  .orderBtns {
+    flex-direction: column;
+  }
+}
