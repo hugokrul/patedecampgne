@@ -23,8 +23,7 @@ if (cartArray !== null && cartArray !== undefined) {
       clearCartBtn.classList.add("button-68");
       clearCartBtn.addEventListener("click", clearCart);
       buttonElement.appendChild(clearCartBtn);
-      buttonElement.style.display = "flex";
-      buttonElement.style.justifyContent = "space-between";
+      buttonElement.classList.add("orderBtns");
 
       if (userId) {
         const placeOrderBtn = document.createElement("button");
@@ -33,7 +32,7 @@ if (cartArray !== null && cartArray !== undefined) {
         placeOrderBtn.addEventListener("click", placeOrder);
         buttonElement.appendChild(placeOrderBtn);
       } else {
-        const messageElement = document.createElement('p');
+        const messageElement = document.createElement("p");
         messageElement.innerText = "You first need to login!";
         buttonElement.appendChild(messageElement);
       }
@@ -49,19 +48,22 @@ if (cartArray !== null && cartArray !== undefined) {
 
 async function placeOrder() {
   cartArray.forEach(async (movie, index) => {
-    const movieId = movie.split('-')[0];
-    const amount = movie.split('-')[1];
-    const selectValue = (document.getElementById(`dateSelect${index}`)).value;
+    const movieId = movie.split("-")[0];
+    const amount = movie.split("-")[1];
+    const selectValue = document.getElementById(`dateSelect${index}`).value;
 
     let mov = await fetch(`/group5/get-movie/${movieId}`);
     mov = await mov.json();
     mov = mov[0];
-    
-    await fetch(`/group5/add-order-history/${userId}&${movieId}&${amount}&${selectValue}`, {method: "POST"});
+
+    await fetch(
+      `/group5/add-order-history/${userId}&${movieId}&${amount}&${selectValue}`,
+      { method: "POST" }
+    );
   });
-  alert('Order complete!');
+  alert("Order complete!");
   clearCart(false);
-} 
+}
 
 function renderEmptyCart() {
   const emptyCartText = document.createElement("p");
@@ -86,27 +88,26 @@ async function renderPaymentDetails() {
     let username = data.fullName;
     let creditCard = data.creditCard;
     let address = data.address;
-  
-    let usernameElement = document.createElement('p');
+
+    let usernameElement = document.createElement("p");
     usernameElement.innerText = `Hello, ${username}!`;
-  
-    let creditCardElement = document.createElement('p');
+
+    let creditCardElement = document.createElement("p");
     creditCardElement.innerText = `Creditcard: ${creditCard}`;
-  
-    let addressElement = document.createElement('p');
+
+    let addressElement = document.createElement("p");
     addressElement.innerText = `Address: ${address}`;
-  
+
     paymentDetailsElement.appendChild(usernameElement);
     paymentDetailsElement.appendChild(creditCardElement);
     paymentDetailsElement.appendChild(addressElement);
   } else {
-    const loginLink = document.createElement('a');
-    loginLink.innerText = 'Login';
-    loginLink.setAttribute('href', '/group5/login');
+    const loginLink = document.createElement("a");
+    loginLink.innerText = "Login";
+    loginLink.setAttribute("href", "/group5/login");
 
     paymentDetailsElement.appendChild(loginLink);
   }
-  
 }
 
 function getAllMovieDataFromCart() {
@@ -166,23 +167,20 @@ function renderCartItems() {
     movieItemAmount.className = "movieItemTitle";
     movieItemAmount.innerHTML = "Amount selected: ";
 
-
     const dateH4 = document.createElement("h4");
     dateH4.innerText = "Select date:";
     const dateSelect = document.createElement("select");
     dateSelect.setAttribute("id", `dateSelect${index}`);
-    let date = new Date(indMovie.playingSpan.split('_')[0]);
-    date = new Date(date.setDate(date.getDate()-1));
-    for (let i  = 0; i < 14; i++) {
+    let date = new Date(indMovie.playingSpan.split("_")[0]);
+    date = new Date(date.setDate(date.getDate() - 1));
+    for (let i = 0; i < 14; i++) {
       const optionElement = document.createElement("option");
-      setDate = new Date(date.setDate(date.getDate()+1));
+      setDate = new Date(date.setDate(date.getDate() + 1));
       setDate = setDate.toLocaleDateString();
       optionElement.setAttribute("value", setDate);
       optionElement.innerText = setDate;
       dateSelect.appendChild(optionElement);
     }
-
-
 
     const counterInput = document.createElement("input");
     counterInput.defaultValue = indMovie.amountInCart;
@@ -238,8 +236,8 @@ function renderCartItems() {
   });
 }
 
-function clearCart(withAlert=true) {
-  if(withAlert) {
+function clearCart(withAlert = true) {
+  if (withAlert) {
     if (confirm("Are you sure you want to delete your entire cart?")) {
       localStorage.removeItem("moviesInCartIds");
       location.reload();
