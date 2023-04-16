@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/cart.css" />
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/index.css">
     <link rel="stylesheet" href="style/nav.css">
@@ -50,7 +51,13 @@
       </div>      
     </div>
   </section>
+  <section id="searchMovies">
+    <h3>Search:</h3>
+    <input type="text" id="search" class="searchInput" oninput="search()">
+    <div id="movieList"></div>
+  </section>
   <script type="text/javascript" src="script/index.js"></script>
   <script type="text/javascript" src="script/nav.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"></script>
 </body>
 </html>
